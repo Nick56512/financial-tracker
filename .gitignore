@@ -17,3 +17,4 @@ coverage
 
 #!.yarn/cache
 .pnp.*
+.DS_Store
