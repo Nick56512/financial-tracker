@@ -1,11 +1,9 @@
 import { Column, Entity, PrimaryColumn, OneToMany } from "typeorm";
-import { Payments } from "entities";
+import { PrimaryKeyEntity, Payments } from "entities";
 
 @Entity()
-export class Category {
-    @PrimaryColumn('uuid')
-    categoryId: string 
-
+export class Category extends PrimaryKeyEntity {
+ 
     @Column({ type: 'varchar', length: 255, unique: true})
     name: string
 

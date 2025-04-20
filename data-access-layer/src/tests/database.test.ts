@@ -1,5 +1,5 @@
 import { DbConnectOptions } from "types";
-import { DbContext } from "../context";
+import { DbContext } from "../db/context";
 
 describe('test database context', () => {
     it('should create a new initialized connection', async () => {

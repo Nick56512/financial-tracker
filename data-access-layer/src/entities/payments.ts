@@ -1,11 +1,9 @@
-import { Category, User, Report } from "entities";
-import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn, ManyToOne } from "typeorm";
+import { Category, User, Report, PrimaryKeyEntity } from "entities";
+import { Entity, Column, ManyToOne } from "typeorm";
 
 @Entity()
-export class Payments {
-    @PrimaryColumn('uuid')
-    paymentId: string;
-
+export class Payments extends PrimaryKeyEntity {
+   
     @Column({ type: 'integer'})
     amount: number;
 

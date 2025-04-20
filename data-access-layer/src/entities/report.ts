@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
-import { Payments, User } from "entities"; 
+import { Payments, PrimaryKeyEntity, User } from "entities"; 
 
 export enum BudgetPeriod {
     WEEKLY = 'weekly',
@@ -8,10 +8,8 @@ export enum BudgetPeriod {
 }
 
 @Entity()
-export class Report {
-    @PrimaryColumn('uuid')
-    reportId: string;
-
+export class Report extends PrimaryKeyEntity {
+   
     @Column({ type: 'varchar', length: 255 })
     name: string;
 

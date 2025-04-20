@@ -1,11 +1,9 @@
 import "reflect-metadata"
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
-import { Payments, Report } from "entities"
+import { Payments, PrimaryKeyEntity, Report } from "entities"
 
 @Entity()
-export class User {
-    @PrimaryGeneratedColumn('uuid')
-    userId: string
+export class User extends PrimaryKeyEntity{
 
     @Column({ type: 'varchar', length: 255, unique: true })
     email: string
