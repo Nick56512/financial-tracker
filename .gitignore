@@ -9,6 +9,7 @@
 # build artifacts that should be gitignored
 node_modules
 build
+dist
 coverage
 
 # Swap the comments on the following lines if you wish to use zero-installs
