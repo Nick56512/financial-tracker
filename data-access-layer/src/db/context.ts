@@ -1,5 +1,5 @@
-import { Category, User, Payments, Report } from "entities";
-import { DataSource } from "typeorm";
+import { Category, User, Payments, Report, PrimaryKeyEntity } from "entities";
+import { BaseEntity, DataSource, EntityTarget, Repository } from "typeorm";
 import { DbConnectOptions } from "types";
 
 export class DbContext {
@@ -18,10 +18,25 @@ export class DbContext {
         })
     }
    
-    public async createConnection(): Promise<DataSource> {
-        if(this.connection.isInitialized) {
-            return this.connection;
+    public async createConnection() {
+        if(!this.connection.isInitialized) {
+            await this.connection.initialize();
         }
-       return await this.connection.initialize();
+    }
+
+    public async closeConnection() {
+        if(this.connection.isInitialized) {
+            await this.connection.destroy()
+        }
+    }
+
+    public isConnected(): boolean {
+        return this.connection.isInitialized
+    }
+
+    public getRepository<Entity extends PrimaryKeyEntity>(
+        entity: EntityTarget<Entity>
+      ): Repository<Entity> {
+        return this.connection.getRepository(entity);
     }
 }

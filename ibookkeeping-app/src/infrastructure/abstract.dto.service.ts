@@ -1,6 +1,6 @@
 import { PrimaryKeyEntity } from 'data-access-layer';
-export class AbstractDtoService<Entity extends PrimaryKeyEntity> {
+export class AbstractDtoService<Entity, Dto> {
     constructor() {
-        private readonly repository
+        private readonly repository: IModel
     }
 }

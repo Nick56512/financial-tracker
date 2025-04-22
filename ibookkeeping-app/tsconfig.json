@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "data-access-layer": [ "../data-access-layer/src/index.ts" ]
+      "data-access-layer": [ "../data-access-layer/build/index.js" ]
     }
   }
 }

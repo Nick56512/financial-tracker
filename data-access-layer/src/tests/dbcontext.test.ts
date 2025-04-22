@@ -1,12 +1,22 @@
 import { DbConnectOptions } from "types";
 import { DbContext } from "../db/context";
+import { User } from "entities";
+import { Repository } from "typeorm";
 
-describe('test database context', () => {
+describe('test database', () => {
+    const connection = createDbContext()
+    beforeAll(async () => {
+        await connection.createConnection()
+    })
     it('should create a new initialized connection', async () => {
-        const connection =  await createDbContext().createConnection()
-        expect(connection.isInitialized).toBe(true);
-        
-        await connection.destroy();
+        expect(connection.isConnected()).toBe(true);
+    })
+    it('should return a user repository', async () => {
+        const repo: Repository<User> = connection.getRepository(User)
+        expect(repo.metadata.name).toBe(User.name);
+    })
+    afterAll(async () => {
+        await connection.closeConnection()
     })
 })
 

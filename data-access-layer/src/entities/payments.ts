@@ -1,4 +1,7 @@
-import { Category, User, Report, PrimaryKeyEntity } from "entities";
+import { PrimaryKeyEntity } from "./abstract.entity";
+import { Category } from "./category";
+import { Report } from "./report";
+import { User } from "./user";
 import { Entity, Column, ManyToOne } from "typeorm";
 
 @Entity()

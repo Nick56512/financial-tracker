@@ -1,7 +1,6 @@
-import { UUID } from "crypto";
 import { PrimaryGeneratedColumn } from "typeorm";
 
 export class PrimaryKeyEntity {
-    @PrimaryGeneratedColumn({  })
-    id: UUID;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 }

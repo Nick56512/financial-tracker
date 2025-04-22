@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn, OneToMany } from "typeorm";
-import { PrimaryKeyEntity, Payments } from "entities";
+import { Column, Entity, OneToMany } from "typeorm";
+import { Payments } from "./payments";
+import { PrimaryKeyEntity } from "./abstract.entity";
 
 @Entity()
 export class Category extends PrimaryKeyEntity {
