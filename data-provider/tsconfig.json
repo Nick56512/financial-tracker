@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2021",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    
+    "declaration": true,
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
     "rootDir": "./src",                                  /* Specify the root folder within your source files. */
@@ -18,7 +18,7 @@
     "experimentalDecorators": true,
     "paths": {
       "types": ["./src/@types/index.ts"],
-      "entities": ["./src/entities/index.ts"]
+      "entities": ["./src/db/entities/index.ts"]
     }
   },
   "include": [

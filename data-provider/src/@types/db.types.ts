@@ -1,5 +1,3 @@
-import { DataSourceOptions } from "typeorm"
-
 export type AvailableDatadabaseTypes = 'mysql' | 'postgres'
 export type DbConnectOptions = {
     type: AvailableDatadabaseTypes

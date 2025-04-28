@@ -1,4 +1,4 @@
-import { Category, User, Payments, Report, PrimaryKeyEntity } from "entities";
+import { Category, User, Payments, Report, PrimaryKeyEntity } from "./entities";
 import { BaseEntity, DataSource, EntityTarget, Repository } from "typeorm";
 import { DbConnectOptions } from "types";
 
@@ -19,9 +19,10 @@ export class DbContext {
     }
    
     public async createConnection() {
-        if(!this.connection.isInitialized) {
-            await this.connection.initialize();
+        if(this.connection.isInitialized) {
+            return this.connection
         }
+        return this.connection.initialize();
     }
 
     public async closeConnection() {
@@ -34,9 +35,7 @@ export class DbContext {
         return this.connection.isInitialized
     }
 
-    public getRepository<Entity extends PrimaryKeyEntity>(
-        entity: EntityTarget<Entity>
-      ): Repository<Entity> {
-        return this.connection.getRepository(entity);
+    public getConnection() {
+        return this.connection
     }
 }

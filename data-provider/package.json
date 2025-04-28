@@ -1,6 +1,7 @@
 {
   "name": "data-provider",
   "packageManager": "yarn@4.8.1",
+  "main": "./build/index.js",
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/pg": "^8",
