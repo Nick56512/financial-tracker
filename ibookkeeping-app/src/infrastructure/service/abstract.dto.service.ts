@@ -1,22 +1,27 @@
 import { IModelRepository, PrimaryKeyEntity } from 'data-provider'
 import { IService } from './idto.service';
-import { Mapper } from 'src/utils/mapper';
+import { IMapper } from './mapper/imapper';
 export class AbstractService<Entity extends PrimaryKeyEntity, Dto> implements IService<Dto> {
 
-    constructor(private readonly modelRepo: IModelRepository<Entity>,  
-                private readonly mapper: Mapper<Entity, Dto>   
+    constructor(private readonly modelRepository: IModelRepository<Entity>,  
+                private readonly mapper: IMapper<Entity, Dto>   
     ) {}
     createOrUpdate(item: Dto): Promise<string> {
         const entity = this.mapper.mapToEntity(item)
-        return this.modelRepo.createOrUpdate(entity)
+        return this.modelRepository.createOrUpdate(entity)
     }
     removeById(entityId: string): Promise<void> {
-        throw new Error('Method not implemented.');
+        return this.modelRepository.removeById(entityId)
     }
-    findById(entityId: string): Promise<Dto | null> {
-        throw new Error('Method not implemented.');
+    async findById(entityId: string): Promise<Dto | null> {
+        const entity = await this.modelRepository.findById(entityId)
+        if(!entity) {
+            return null;
+        }
+        return this.mapper.mapToDto(entity);
     }
-    getAll(): Promise<Dto[]> {
-        throw new Error('Method not implemented.');
+    async getAll(): Promise<Dto[]> {
+        const entities = await this.modelRepository.getAll()
+        return entities.map(x => this.mapper.mapToDto(x))
     }
 }
