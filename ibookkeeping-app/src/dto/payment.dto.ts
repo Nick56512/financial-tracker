@@ -1,4 +1,9 @@
+import { Type } from "class-transformer";
+import { CategoryDto } from "./category.dto";
+
 export class PaymentDto {
     amount: number;
-    category: Category;
+    
+    @Type(() => CategoryDto)
+    category: CategoryDto;
 }

@@ -5,6 +5,6 @@ export class UserDto {
     age: number
     name: string
 
-    @Type(() => )
-    reports: Report[]
+    /*@Type(() => )
+    reports: Report[]*/
 }

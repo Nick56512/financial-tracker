@@ -1,15 +1,14 @@
 import { PrimaryKeyEntity } from "entities";
 import { Repository } from "typeorm";
-import { IModelRepository } from "./infrastructure/imodel.repository";
+import { IModelRepository } from "../infrastructure/imodel.repository";
 
 export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModelRepository<Entity> {
     
     constructor(private readonly repository: Repository<Entity>, 
     ) {}
 
-    async createOrUpdate(entity: Entity): Promise<string> {
-        const id = (await this.repository.save(entity)).id
-        return id
+    async createOrUpdate(entity: Entity): Promise<Entity> {
+       return this.repository.save(entity)
     }
     async removeById(entityId: string): Promise<void> {
         if(this.repository.existsBy({ id: entityId } as any)) {
@@ -22,4 +21,5 @@ export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModel
     getAll(): Promise<Entity[]> {
         return this.repository.find({ })
     }
+
 }
