@@ -6,9 +6,10 @@ export class AbstractService<Entity extends PrimaryKeyEntity, Dto> implements IS
     constructor(private readonly modelRepository: IModelRepository<Entity>,  
                 private readonly mapper: IMapper<Entity, Dto>   
     ) {}
-    createOrUpdate(item: Dto): Promise<string> {
+    async createOrUpdate(item: Dto): Promise<string> {
         const entity = this.mapper.mapToEntity(item)
-        return this.modelRepository.createOrUpdate(entity)
+        const createdEnity = await this.modelRepository.createOrUpdate(entity)
+        return createdEnity.id
     }
     removeById(entityId: string): Promise<void> {
         return this.modelRepository.removeById(entityId)
