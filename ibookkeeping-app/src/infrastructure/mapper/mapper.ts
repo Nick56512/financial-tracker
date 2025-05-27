@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { ClassConstructor, plainToInstance } from "class-transformer";
 import { IMapper } from './imapper';
 import { PrimaryKeyEntity } from 'data-provider';

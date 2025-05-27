@@ -1,3 +1,3 @@
-export * from './db/index';
+export * from './db';
 export * from './db/entities';
-export * from 'types';
+export * from './@types';

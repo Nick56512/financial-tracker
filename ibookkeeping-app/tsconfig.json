@@ -18,5 +18,9 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "baseUrl": "./src",
+    "paths": {
+      "dto": ["dto/index.ts"],
+      "infrastructure": ["infrastructure/index.ts"]
+    }
   }
 }

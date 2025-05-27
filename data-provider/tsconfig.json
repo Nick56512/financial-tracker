@@ -5,6 +5,7 @@
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
     "rootDir": "./src",                                  /* Specify the root folder within your source files. */
+    "baseUrl": "./src",
 
     /* Emit */
     "outDir": "./build",                                   /* Specify an output folder for all emitted files. */
@@ -17,8 +18,8 @@
     "emitDecoratorMetadata": true,                        /* Emit design-type metadata for decorated declarations in source files. */
     "experimentalDecorators": true,
     "paths": {
-      "types": ["./src/@types/index.ts"],
-      "entities": ["./src/db/entities/index.ts"]
+      "types": ["@types/index.ts"],
+      "entities": ["db/entities/index.ts"]
     }
   },
   "include": [

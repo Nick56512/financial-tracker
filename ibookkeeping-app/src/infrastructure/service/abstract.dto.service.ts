@@ -1,6 +1,6 @@
 import { IModelRepository, PrimaryKeyEntity } from 'data-provider'
 import { IService } from './idto.service';
-import { IMapper } from './mapper/imapper';
+import { IMapper } from '../mapper/imapper';
 export class AbstractService<Entity extends PrimaryKeyEntity, Dto> implements IService<Dto> {
 
     constructor(private readonly modelRepository: IModelRepository<Entity>,  

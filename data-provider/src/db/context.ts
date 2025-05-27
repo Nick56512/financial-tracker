@@ -1,5 +1,5 @@
-import { Category, User, Payments, Report, PrimaryKeyEntity } from "./entities";
-import { BaseEntity, DataSource, EntityTarget, Repository } from "typeorm";
+import { Category, User, Payments, Report } from "./entities";
+import { DataSource } from "typeorm";
 import { DbConnectOptions } from "types";
 
 export class DbContext {
