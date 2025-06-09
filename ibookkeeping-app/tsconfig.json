@@ -20,7 +20,7 @@
     "baseUrl": "./src",
     "paths": {
       "dto": ["dto/index.ts"],
-      "infrastructure": ["infrastructure/index.ts"]
+      "infrastructure": ["infrastructure"]
     }
   }
 }

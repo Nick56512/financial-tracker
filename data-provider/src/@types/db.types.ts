@@ -1,4 +1,5 @@
 export type AvailableDatadabaseTypes = 'mysql' | 'postgres'
+export const availableDatabaseTypes: AvailableDatadabaseTypes[] = ['mysql', 'postgres']
 export type DbConnectOptions = {
     type: AvailableDatadabaseTypes
     host: string
