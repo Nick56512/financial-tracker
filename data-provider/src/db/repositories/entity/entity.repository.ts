@@ -4,7 +4,7 @@ import { IModelRepository } from "./imodel.repository";
 
 export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModelRepository<Entity> {
     
-    constructor(private readonly repository: Repository<Entity>, 
+    constructor(protected readonly repository: Repository<Entity>, 
     ) {}
 
     async createOrUpdate(entity: Entity): Promise<Entity> {
@@ -28,5 +28,4 @@ export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModel
     getAll(): Promise<Entity[]> {
         return this.repository.find({ })
     }
-
 }

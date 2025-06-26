@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
-      "dto": ["dto/index.ts"],
+      "dto": ["dtos.ts"],
       "infrastructure": ["infrastructure"]
     }
   }
