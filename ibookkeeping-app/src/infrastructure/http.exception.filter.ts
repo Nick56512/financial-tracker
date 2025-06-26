@@ -1,5 +1,5 @@
 import { ArgumentsHost, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
-import { Logger, startTimer } from "winston";
+import { Logger } from "winston";
 import { Request, Response } from "express";
 
 export class HttpExceptionFilter implements ExceptionFilter {

@@ -3,7 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { availableDatabaseTypes } from "data-provider";
 import { ConfigurationParameters } from "infrastructure/@types/enum.keys";
 import Joi from "joi";
-import appConfiguration from "./app.config";
+import appConfiguration from "../app.config";
 
 @Module({
     imports: [

@@ -1,6 +1,6 @@
 import { PrimaryKeyEntity } from "entities";
-import { Repository } from "typeorm";
-import { IModelRepository } from "../infrastructure/imodel.repository";
+import { FindOptionsWhere, Repository } from "typeorm";
+import { IModelRepository } from "./imodel.repository";
 
 export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModelRepository<Entity> {
     
@@ -10,13 +10,20 @@ export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModel
     async createOrUpdate(entity: Entity): Promise<Entity> {
        return this.repository.save(entity)
     }
-    async removeById(entityId: string): Promise<void> {
-        if(this.repository.existsBy({ id: entityId } as any)) {
-            await this.repository.delete(entityId)
+    async removeById(entityId: string): Promise<boolean> {
+        const entity = await this.findById(entityId)
+        if(!entity) {
+            return false
         }
+        await this.repository.remove(entity)
+        return true
     }
     findById(entityId: string): Promise<Entity> {
-        return this.repository.findOneBy({ id: entityId } as any)
+        return this.repository.findOne({
+            where: {
+                id: entityId
+            } as FindOptionsWhere<Entity>
+        })
     }
     getAll(): Promise<Entity[]> {
         return this.repository.find({ })

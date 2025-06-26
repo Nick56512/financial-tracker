@@ -1,8 +1,8 @@
 import { PrimaryKeyEntity } from "entities";
 import { EntityTarget } from "typeorm";
-import { IRepositoryCreator } from "../infrastructure/irepository.creator";
-import { DbContext } from "../context";
-import { EntityRepository } from "./entity.repository";
+import { DbContext } from "../../context";
+import { EntityRepository } from "../entity.repository";
+import { IRepositoryCreator } from "./irepository.creator";
 
 export class EntityRepositoryCreator implements IRepositoryCreator {
     constructor(private readonly dbContext: DbContext) {}

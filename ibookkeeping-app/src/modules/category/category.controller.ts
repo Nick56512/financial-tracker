@@ -1,4 +1,4 @@
-import { Controller, Get, Inject } from "@nestjs/common";
+import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, Query } from "@nestjs/common";
 import { CategoryDto } from "dto/category.dto";
 import { IService } from "infrastructure";
 import { INJECTION_KEYS } from "infrastructure/@types/enum.keys";
@@ -11,5 +11,20 @@ export class CategoryController {
     @Get('all')
     public async getAll(): Promise<CategoryDto[]> {
         return this.service.getAll()
+    }
+
+    @Get('getById/:id')
+    public async getById(@Param('id', new ParseUUIDPipe())id: string): Promise<CategoryDto | null> {
+        return this.service.findById(id)
+    }
+
+    @Post('create')
+    public async createCategory(@Body(new ValidationPipe({ whitelist: true })) newCategory: CategoryDto) {
+        return this.service.createOrUpdate(newCategory)
+    }
+
+    @Delete('remove')
+    public async removeCategory(@Query('id', new ParseUUIDPipe()) id: string) {
+        return this.service.removeById(id)
     }
 }

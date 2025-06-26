@@ -1,5 +1,9 @@
 export * from './service/abstract.dto.service'
 export * from './service/idto.service'
 
-export * from './mapper/imapper'
-export * from './mapper/mapper'
+export * from './service/mapper/imapper'
+export * from './service/mapper/mapper'
+
+export * from './http.exception.filter'
+export * from './modules/config.module'
+export * from './modules/database/database.module'

@@ -10,6 +10,7 @@
 node_modules
 build
 dist
+logs
 coverage
 .vscode
 .env
