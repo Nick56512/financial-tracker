@@ -8,6 +8,7 @@ import appConfiguration from "../app.config";
 @Module({
     imports: [
         ConfigModule.forRoot({
+            isGlobal: true,
             load: [appConfiguration],
             validationSchema: Joi.object({
                 [ConfigurationParameters.DATABASE_TYPE]: Joi.valid(...availableDatabaseTypes).required(),

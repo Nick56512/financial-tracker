@@ -3,7 +3,7 @@ import { CategoryController } from "./category.controller";
 import { INJECTION_KEYS } from "infrastructure/@types/enum.keys";
 import { Category, DbContext, EntityRepositoryCreator, IRepositoryCreator } from "data-provider";
 import { AbstractService, ConfigurationModule, DatabaseModule, Mapper } from "infrastructure";
-import { CategoryDto } from "dto/category.dto";
+import { CategoryDto } from "models/dtos";
 
 @Module({
     imports: [ConfigurationModule, DatabaseModule],
@@ -12,8 +12,8 @@ import { CategoryDto } from "dto/category.dto";
         {
            provide: INJECTION_KEYS.CategoryService,
            useFactory: async (context: DbContext) => {
-                const creator: IRepositoryCreator = new EntityRepositoryCreator(context)
-                const repository = creator.createRepository<Category>(Category)
+                const creator: IRepositoryCreator<Category> = new EntityRepositoryCreator(context)
+                const repository = creator.createRepository(Category)
                 return new AbstractService(repository, new Mapper(Category, CategoryDto))
             },
            inject: [INJECTION_KEYS.DbContext]

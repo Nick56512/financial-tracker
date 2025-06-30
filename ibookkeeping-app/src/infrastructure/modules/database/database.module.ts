@@ -1,12 +1,13 @@
-import { Module } from "@nestjs/common";
+import { Global, Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DbConnectOptions, DbContext } from "data-provider";
 import { ConfigurationParameters, INJECTION_KEYS } from "infrastructure/@types/enum.keys";
-import { ConfigurationModule } from "../config.module";
 import { DatabaseShutdown } from "./database.shutdown";
+import { DatabaseCreateConnection } from "./database.init.connection";
 
+@Global()
 @Module({
-    imports: [ConfigurationModule],
+    imports: [],
     providers: [
         {
             provide: INJECTION_KEYS.DbContext,
@@ -22,12 +23,13 @@ import { DatabaseShutdown } from "./database.shutdown";
                     logging: configService.getOrThrow(ConfigurationParameters.DATABASE_LOGGING),
                 }
                 const context = new DbContext(options)
-                await context.createConnection()
+               
                 return context
             },
             inject: [ConfigService]
         },
-        DatabaseShutdown
+        DatabaseShutdown,
+        DatabaseCreateConnection
     ],
     exports: [INJECTION_KEYS.DbContext]
     

@@ -23,33 +23,19 @@ export class PaymentDto {
 }
 
 export class ReportDto {
-    @IsString()
-    
     name: string;
-
     currentBudget: number;
     plannedBudget: number;
-
     budgetPeriod: BudgetPeriod;
-
     payments: PaymentDto[];
 }
 
 
 export class UserDto {
+    id?: string
     email: string
     age: number
     name: string
-
-    /*@Type(() => )
-    reports: Report[]*/
-}
-
-export class LoginPayload {
-    @IsEmail()
-    email: string
-
-    @IsString()
-    @MinLength(8)
     password: string
 }
+

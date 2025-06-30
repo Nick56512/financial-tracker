@@ -1,6 +1,7 @@
 export const enum INJECTION_KEYS {
     DbContext = 'DB_CONTEXT',
-    CategoryService = 'CategoryService'
+    CategoryService = 'CategoryService',
+    UserService = 'UserService'
 }
 
 export const enum ConfigurationParameters {
@@ -12,5 +13,7 @@ export const enum ConfigurationParameters {
     DATABASE_NAME = 'DATABASE_NAME',
     DATABASE_SYNCHRONIZE = 'DATABASE_SYNCHRONIZE',
     DATABASE_LOGGING = 'DATABASE_LOGGING',
-    LOG_DESTINATION_FILES = 'LOG_DESTINATION_FILES'
+    LOG_DESTINATION_FILES = 'LOG_DESTINATION_FILES',
+    JWT_SECRET = 'JWT_SECRET',
+    JWT_EXPIRES = 'JWT_EXPIRES'
 }

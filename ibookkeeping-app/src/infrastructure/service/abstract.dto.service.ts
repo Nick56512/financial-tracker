@@ -3,8 +3,8 @@ import { IService } from './idto.service';
 import { IMapper } from './mapper/imapper';
 export class AbstractService<Entity extends PrimaryKeyEntity, Dto> implements IService<Dto> {
 
-    constructor(private readonly modelRepository: IModelRepository<Entity>,  
-                private readonly mapper: IMapper<Entity, Dto>   
+    constructor(protected readonly modelRepository: IModelRepository<Entity>,  
+                protected readonly mapper: IMapper<Entity, Dto>   
     ) {}
     async createOrUpdate(item: Dto): Promise<string> {
         const entity = this.mapper.mapToEntity(item)

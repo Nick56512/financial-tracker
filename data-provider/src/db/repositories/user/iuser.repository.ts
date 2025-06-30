@@ -1,5 +1,6 @@
-import { PrimaryKeyEntity } from "entities";
+import { User } from "entities";
+import { IModelRepository } from "../entity/imodel.repository";
 
-export interface IUserRepository<Entity extends PrimaryKeyEntity> {
-    findByLogin(email: string): Promise<Entity>
+export interface IUserRepository extends IModelRepository<User> {
+    findByEmail(email: string): Promise<User | null>
 }

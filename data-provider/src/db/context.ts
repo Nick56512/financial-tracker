@@ -16,6 +16,7 @@ export class DbContext {
             synchronize: this.connectOptions.synchronize,
             logging: this.connectOptions.logging,
             entities: [User, Category, Payments, Report],
+            migrations: ['migrations/**/*{.ts,.js}'],
         })
     }
    
