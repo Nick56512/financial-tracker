@@ -1,6 +1,6 @@
-import { User } from "entities";
-import { DbConnectOptions } from "../@types/db.types";
-import { DbContext } from "../db";
+import { User } from "../db/entities/user.js";
+import { DbConnectOptions } from "types";
+import { DbContext } from "../index.js";
 
 export function createDbContext(): DbContext {
     const testConnectOptions: DbConnectOptions = {

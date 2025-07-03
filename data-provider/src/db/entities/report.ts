@@ -1,7 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
-import { Payments } from "./payments";
-import { PrimaryKeyEntity } from "./abstract.entity"; 
-import { User } from "./user"
+import { User, Payments, PrimaryKeyEntity } from "./index.js"
+
 
 export enum BudgetPeriod {
     WEEKLY = 'weekly',
@@ -11,7 +10,7 @@ export enum BudgetPeriod {
 
 @Entity()
 export class Report extends PrimaryKeyEntity {
-   
+    
     @Column({ type: 'varchar', length: 255 })
     name: string;
 

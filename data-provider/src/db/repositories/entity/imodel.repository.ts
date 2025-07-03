@@ -1,4 +1,4 @@
-import { PrimaryKeyEntity } from "entities";
+import { PrimaryKeyEntity } from "db/entities/abstract.entity.js";
 
 export interface IModelRepository<Model extends PrimaryKeyEntity> {
     createOrUpdate(entity: Model): Promise<Model>;

@@ -1,5 +1,4 @@
-import { User, Payments, Report } from "./entities";
-import { Category } from "./entities/category"
+import { Category, User, Payments, Report } from "entities";
 import { DataSource } from "typeorm";
 import { DbConnectOptions } from "types";
 

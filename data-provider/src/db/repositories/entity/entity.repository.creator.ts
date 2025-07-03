@@ -1,9 +1,9 @@
-import { PrimaryKeyEntity } from "entities";
 import { EntityTarget } from "typeorm";
-import { DbContext } from "../../context";
-import { EntityRepository } from "./entity.repository";
-import { IRepositoryCreator } from "../irepository.creator";
-import { IModelRepository } from "./imodel.repository";
+import { DbContext } from "../../context.js";
+import { EntityRepository } from "./entity.repository.js";
+import { IRepositoryCreator } from "../irepository.creator.js";
+import { IModelRepository } from "./imodel.repository.js";
+import { PrimaryKeyEntity } from "db/entities/abstract.entity.js";
 
 export class EntityRepositoryCreator<Entity extends PrimaryKeyEntity> implements IRepositoryCreator<Entity> {
     constructor(private readonly dbContext: DbContext) {}

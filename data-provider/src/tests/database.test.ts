@@ -1,6 +1,6 @@
-import { User } from "entities";
-import { EntityRepository, IModelRepository } from "../db";
-import { createDbContext, getTestUser } from "./stubs";
+import { User } from "../db/entities/index.js";
+import { EntityRepository, IModelRepository } from "../db/index.js";
+import { createDbContext, getTestUser } from "./stubs.js";
 
 function testDatabaseInteraction() {
     testDbContext()

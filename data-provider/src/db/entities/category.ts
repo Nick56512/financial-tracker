@@ -1,10 +1,9 @@
 import { Column, Entity, OneToMany } from "typeorm";
-import { Payments } from "./payments";
-import { PrimaryKeyEntity } from "./abstract.entity";
+import { Payments, PrimaryKeyEntity } from "./index.js";
 
 @Entity()
 export class Category extends PrimaryKeyEntity {
- 
+
     @Column({ type: 'varchar', length: 255, unique: true})
     name: string
 

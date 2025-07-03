@@ -1,12 +1,10 @@
-import { PrimaryKeyEntity } from "./abstract.entity";
-import { Category } from "./category";
-import { Report } from "./report";
-import { User } from "./user";
+import { User, Report, Category, PrimaryKeyEntity } from "./index.js";
 import { Entity, Column, ManyToOne } from "typeorm";
+
 
 @Entity()
 export class Payments extends PrimaryKeyEntity {
-   
+    
     @Column({ type: 'integer'})
     amount: number;
 
