@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, Query } from "@nestjs/common";
 import { IService } from "infrastructure";
-import { INJECTION_KEYS } from "infrastructure/@types/enum.keys";
+import { INJECTION_KEYS } from "types";
 import { CategoryDto } from "models/dtos";
 
 @Controller('category')

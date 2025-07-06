@@ -1,12 +1,11 @@
 import { Module } from "@nestjs/common";
 import { CategoryController } from "./category.controller";
-import { INJECTION_KEYS } from "infrastructure/@types/enum.keys";
+import { INJECTION_KEYS } from "types";
 import { Category, DbContext, EntityRepositoryCreator, IRepositoryCreator } from "data-provider";
-import { AbstractService, ConfigurationModule, DatabaseModule, Mapper } from "infrastructure";
+import { AbstractService, Mapper } from "infrastructure";
 import { CategoryDto } from "models/dtos";
 
 @Module({
-    imports: [ConfigurationModule, DatabaseModule],
     controllers: [CategoryController],
     providers: [
         {

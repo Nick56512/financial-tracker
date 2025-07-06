@@ -1,6 +1,8 @@
-import { User, Report, Category, PrimaryKeyEntity } from "./index.js";
 import { Entity, Column, ManyToOne } from "typeorm";
-
+import { PrimaryKeyEntity } from "./primary.key.entity";
+import { User } from "./user";
+import { Category } from "./category";
+import { Report } from "./report";
 
 @Entity()
 export class Payments extends PrimaryKeyEntity {

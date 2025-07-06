@@ -19,8 +19,9 @@
     "esModuleInterop": true,
     "baseUrl": "./src",
     "paths": {
-      "dto": ["dtos.ts"],
-      "infrastructure": ["infrastructure"]
+      "dto": ["models/dto.ts"],
+      "infrastructure": ["infrastructure/index"],
+      "types": [ "@types/enum.keys.ts" ]
     }
   }
 }

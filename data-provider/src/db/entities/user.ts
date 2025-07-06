@@ -1,5 +1,7 @@
 import { Entity, Column, OneToMany } from 'typeorm'
-import { Payments, Report, PrimaryKeyEntity } from "./index.js" 
+import { Payments } from './payments'
+import { Report } from './report'
+import { PrimaryKeyEntity } from './primary.key.entity'
 
 @Entity()
 export class User extends PrimaryKeyEntity {
@@ -12,9 +14,6 @@ export class User extends PrimaryKeyEntity {
 
     @Column({ type: 'varchar', length: 255 })
     name: string
-
-    @Column({ type: 'varchar', length: 255 })
-    password: string
 
     @OneToMany(() => Payments, (payment) => payment.user)
     payments: Payments[]

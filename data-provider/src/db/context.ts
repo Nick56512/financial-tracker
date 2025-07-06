@@ -1,4 +1,5 @@
-import { Category, User, Payments, Report } from "entities";
+import { User, Payments, Report, Category } from "./entities/index";
+
 import { DataSource } from "typeorm";
 import { DbConnectOptions } from "types";
 
@@ -14,8 +15,7 @@ export class DbContext {
             database: this.connectOptions.database,
             synchronize: this.connectOptions.synchronize,
             logging: this.connectOptions.logging,
-            entities: [User, Category, Payments, Report],
-            migrations: ['migrations/**/*{.ts,.js}'],
+            entities: this.connectOptions.entities
         })
     }
    

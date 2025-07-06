@@ -1,4 +1,4 @@
-import { PrimaryKeyEntity } from "../entities/abstract.entity.js";
+import { PrimaryKeyEntity } from "../entities/primary.key.entity.js";
 import { EntityTarget } from "typeorm";
 import { IModelRepository } from "./entity/imodel.repository.js";
 

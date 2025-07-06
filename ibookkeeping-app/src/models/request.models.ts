@@ -1,25 +1,19 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString, Max, Min, MinLength } from "class-validator"
+import { IsEmail, IsNotEmpty, IsNumber, IsString, Matches, Max, Min, MinLength } from "class-validator"
 
-export class LoginPayload {
+export class VerificationPayload {
     @IsEmail()
     @IsNotEmpty()
     email: string
 
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(8)
-    password: string
+    @IsNumber()
+    @Matches(/^\d{6}$/)
+    verificationCode: number
 }
 
 export class RegisterPayload {
     @IsEmail()
     @IsNotEmpty()
     email: string
-
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(8)
-    password: string
 
     @IsNumber()
     @Min(18)

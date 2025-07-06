@@ -3,7 +3,7 @@ import { DbContext } from "../../context.js";
 import { EntityRepository } from "./entity.repository.js";
 import { IRepositoryCreator } from "../irepository.creator.js";
 import { IModelRepository } from "./imodel.repository.js";
-import { PrimaryKeyEntity } from "db/entities/abstract.entity.js";
+import { PrimaryKeyEntity } from "db/entities/primary.key.entity.js";
 
 export class EntityRepositoryCreator<Entity extends PrimaryKeyEntity> implements IRepositoryCreator<Entity> {
     constructor(private readonly dbContext: DbContext) {}

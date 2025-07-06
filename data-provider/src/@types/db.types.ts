@@ -1,3 +1,5 @@
+import { EntitySchema, MixedList } from "typeorm"
+
 export type AvailableDatadabaseTypes = 'mysql' | 'postgres'
 export const availableDatabaseTypes: AvailableDatadabaseTypes[] = ['mysql', 'postgres']
 export type DbConnectOptions = {
@@ -8,5 +10,6 @@ export type DbConnectOptions = {
     password: string
     database: string
     synchronize: boolean
-    logging: boolean
+    logging: boolean,
+    entities: MixedList<string | Function | EntitySchema<any>>
 }

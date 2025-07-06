@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { CategoryModule } from 'modules/category/category.module';
-import { ConfigurationModule } from 'infrastructure';
-import { DatabaseModule } from 'infrastructure';
-import { WinstonLoggerModule } from 'infrastructure/modules/winston.module';
-import { AuthModule } from 'infrastructure/modules/authorization/auth.module';
+import { WinstonLoggerModule } from 'modules/global/winston.module';
+import { AuthModule } from 'modules/global/authorization/auth.module';
+import { ConfigurationModule } from 'modules/global/config.module';
+import { DatabaseModule } from 'modules/global/database/database.module';
+import { CacheManagerModule } from 'modules/global/cache.manager.module';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { AuthModule } from 'infrastructure/modules/authorization/auth.module';
     WinstonLoggerModule,
     DatabaseModule,
     CategoryModule,
-    AuthModule
+    AuthModule,
+    CacheManagerModule
   ],
   providers: []
 })

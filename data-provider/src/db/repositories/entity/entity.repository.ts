@@ -1,6 +1,6 @@
 import { FindOptionsWhere, Repository } from "typeorm";
 import { IModelRepository } from "./imodel.repository.js";
-import { PrimaryKeyEntity } from "db/entities/abstract.entity.js";
+import { PrimaryKeyEntity } from "db/entities/primary.key.entity.js";
 
 export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModelRepository<Entity> {
     

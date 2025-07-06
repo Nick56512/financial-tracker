@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { availableDatabaseTypes } from "data-provider";
-import { ConfigurationParameters } from "infrastructure/@types/enum.keys";
+import appConfiguration from "app.config";
 import Joi from "joi";
-import appConfiguration from "../app.config";
+import { ConfigurationParameters } from "types";
 
 @Module({
     imports: [

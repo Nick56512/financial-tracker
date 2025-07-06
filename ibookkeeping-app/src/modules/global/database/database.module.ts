@@ -1,7 +1,7 @@
 import { Global, Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { DbConnectOptions, DbContext } from "data-provider";
-import { ConfigurationParameters, INJECTION_KEYS } from "infrastructure/@types/enum.keys";
+import { Category, DbConnectOptions, DbContext, User, Payments, Report } from "data-provider";
+import { ConfigurationParameters, INJECTION_KEYS } from "types";
 import { DatabaseShutdown } from "./database.shutdown";
 import { DatabaseCreateConnection } from "./database.init.connection";
 
@@ -21,6 +21,7 @@ import { DatabaseCreateConnection } from "./database.init.connection";
                     database: configService.getOrThrow(ConfigurationParameters.DATABASE_NAME),
                     synchronize: configService.getOrThrow(ConfigurationParameters.DATABASE_SYNCHRONIZE),
                     logging: configService.getOrThrow(ConfigurationParameters.DATABASE_LOGGING),
+                    entities: [ User, Category, Report, Payments ]
                 }
                 const context = new DbContext(options)
                

@@ -2,7 +2,7 @@
   "name": "data-provider",
   "packageManager": "yarn@4.8.1",
   "main": "./build/index.js",
-  "type": "module",
+  "type": "commonjs",
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/pg": "^8",
@@ -21,6 +21,7 @@
     "dotenv": "^16.5.0",
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
+    "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.22"
   }
 }

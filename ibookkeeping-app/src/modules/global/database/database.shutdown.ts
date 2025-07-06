@@ -1,6 +1,6 @@
 import { OnApplicationShutdown, Inject, Injectable } from "@nestjs/common";
 import { DbContext } from "data-provider";
-import { INJECTION_KEYS } from "infrastructure/@types/enum.keys";
+import { INJECTION_KEYS } from "types";
 
 @Injectable()
 export class DatabaseShutdown implements OnApplicationShutdown {

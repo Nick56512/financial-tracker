@@ -1,6 +1,5 @@
-import { User } from "../db/entities/user.js";
 import { DbConnectOptions } from "types";
-import { DbContext } from "../index.js";
+import { Category, DbContext, User, Report, Payments } from "../index.js";
 
 export function createDbContext(): DbContext {
     const testConnectOptions: DbConnectOptions = {
@@ -12,6 +11,7 @@ export function createDbContext(): DbContext {
         database: 'testdb',
         synchronize: true,
         logging: false,
+        entities: [ User, Category, Report, Payments ]
     } 
    const dbContext = new DbContext(testConnectOptions);
    return dbContext;

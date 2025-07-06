@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { INestApplication } from '@nestjs/common';
-import { HttpExceptionFilter } from 'infrastructure/http.exception.filter';
+import { HttpExceptionFilter } from 'utils/http.exception.filter';
 import { Logger } from 'winston';
 
 async function bootstrap() {

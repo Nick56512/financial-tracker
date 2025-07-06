@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
-import { User, Payments, PrimaryKeyEntity } from "./index.js"
-
+import { PrimaryKeyEntity } from "./primary.key.entity";
+import { Payments } from "./payments";
+import { User } from "./user";
 
 export enum BudgetPeriod {
     WEEKLY = 'weekly',

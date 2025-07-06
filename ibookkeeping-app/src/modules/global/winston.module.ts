@@ -1,16 +1,12 @@
-import { Module, Scope } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { WinstonModule } from "nest-winston";
-import { ConfigurationParameters } from "infrastructure/@types/enum.keys";
-import { ConfigurationModule } from "infrastructure";
 import { ConfigService } from "@nestjs/config";
 import * as winston from "winston";
+import { ConfigurationParameters } from "types";
 
 @Module({
     imports: [
         WinstonModule.forRootAsync({
-            imports: [
-                ConfigurationModule
-            ],
             useFactory: (configService: ConfigService) => {
                 const pathToFile = configService.getOrThrow<string>(ConfigurationParameters.LOG_DESTINATION_FILES)
                 return {

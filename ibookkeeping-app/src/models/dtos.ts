@@ -36,6 +36,5 @@ export class UserDto {
     email: string
     age: number
     name: string
-    password: string
 }
 

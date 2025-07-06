@@ -3,7 +3,3 @@ export * from './service/idto.service'
 
 export * from './service/mapper/imapper'
 export * from './service/mapper/mapper'
-
-export * from './http.exception.filter'
-export * from './modules/config.module'
-export * from './modules/database/database.module'

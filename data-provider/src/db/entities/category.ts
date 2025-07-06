@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany } from "typeorm";
-import { Payments, PrimaryKeyEntity } from "./index.js";
+import { PrimaryKeyEntity } from "./primary.key.entity";
+import { Payments } from "./payments";
 
 @Entity()
 export class Category extends PrimaryKeyEntity {
