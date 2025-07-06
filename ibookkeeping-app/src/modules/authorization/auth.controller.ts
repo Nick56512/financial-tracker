@@ -4,18 +4,22 @@ import { INJECTION_KEYS } from "types";
 import { JwtService } from "@nestjs/jwt";
 import { RegisterPayload, VerificationPayload } from "models/request.models";
 import { UserDto } from "models/dtos";
+import { Cache } from "cache-manager";
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
 
 @Controller('auth')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 export class AuthController {
 
     private readonly verificationCode = '56555'
-    constructor(@Inject(INJECTION_KEYS.UserService)private readonly userService: IUserService,
-                private readonly jwtService: JwtService) {}
+    constructor(@Inject(INJECTION_KEYS.UserService) private readonly userService: IUserService,
+                @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,    // &&&
+                private readonly jwtService: JwtService,
+                ) {}
 
     @Post('verify')
     public async verify(@Body() verificationPayload: VerificationPayload) {
-        
+        this.cacheManager.set('code', this.verificationCode)
     }
 
     /*public async login(@Body() credentials: LoginPayload) {
