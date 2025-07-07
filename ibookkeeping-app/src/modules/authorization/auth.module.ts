@@ -7,6 +7,8 @@ import { DbContext, User, UserRepositoryCreator } from "data-provider";
 import { UserService } from "./user.service";
 import { Mapper } from "infrastructure/service/mapper/mapper";
 import { UserDto } from "models/dtos";
+import { VerificationManager } from "./verification/verification.manager";
+import { CACHE_MANAGER } from "@nestjs/cache-manager";
 
 @Module({
     imports: [
@@ -31,6 +33,10 @@ import { UserDto } from "models/dtos";
                 return new UserService(repository, new Mapper(User, UserDto))
             },
             inject: [INJECTION_KEYS.DbContext]
+        },
+        {
+            provide: INJECTION_KEYS.VerificationManager,
+            useClass: VerificationManager,
         }
     ]
 })

@@ -23,10 +23,10 @@ export class UserService extends AbstractService<User, UserDto> implements IUser
     }
     async registerNewUser(newUser: UserDto): Promise<boolean> {
         const existsUser: User | null = await this.userRepository.findByEmail(newUser.email)
-        if(existsUser == null) {
-            const user = this.mapper.mapToEntity(newUser)
-            return (await this.userRepository.createOrUpdate(user)) != null
+        if(existsUser != null) {
+            return false
         }
-        return false
+        const user = this.mapper.mapToEntity(newUser)
+        return (await this.userRepository.createOrUpdate(user)) != null
     }
 }

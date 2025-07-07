@@ -6,7 +6,6 @@ export class VerificationPayload {
     email: string
 
     @IsNumber()
-    @Matches(/^\d{6}$/)
     verificationCode: number
 }
 

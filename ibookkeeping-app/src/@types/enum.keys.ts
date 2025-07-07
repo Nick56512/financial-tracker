@@ -1,7 +1,8 @@
 export const enum INJECTION_KEYS {
     DbContext = 'DB_CONTEXT',
     CategoryService = 'CategoryService',
-    UserService = 'UserService'
+    UserService = 'UserService',
+    VerificationManager = 'VerificationManager'
 }
 
 export const enum ConfigurationParameters {
@@ -19,3 +20,9 @@ export const enum ConfigurationParameters {
     REDIS_HOST = 'REDIS_HOST',
     REDIS_PORT = 'REDIS_PORT'
 }
+
+export const enum CacheDataKeys {
+    verificationCode = 'api:verificationCode:',
+}
+
+//TODO: write routes and controllers
