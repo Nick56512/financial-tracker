@@ -31,7 +31,7 @@ export class ReportDto {
 }
 
 export class UserDto {
-    id: string | null
+    id?: string
     email: string
     age?: number
     name?: string

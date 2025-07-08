@@ -5,14 +5,14 @@ import { Cache } from "cache-manager";
 
 export class VerificationManager implements IVerificationManager {
 
-    private readonly codeTtl: number = 30000;
+    private readonly codeTtlMilliseconds: number = 10 * 10000;
 
     constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
     async createCode(cacheStoreKey: string): Promise<void> {
         const code = Math.floor(100000 + Math.random() * 900000);
         console.log(code)
-        await this.cacheManager.set<number>(cacheStoreKey, code, this.codeTtl);
+        await this.cacheManager.set<number>(cacheStoreKey, code, this.codeTtlMilliseconds);
     }
 
     async isExistsCode(cacheStoreKey: string): Promise<boolean> {

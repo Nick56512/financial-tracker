@@ -23,11 +23,10 @@ export class AuthController {
         if(!verificationSuccess) {
             throw new BadRequestException('Expired or wrong verification code')
         }
-        let userId: string | null;
+        let userId: string | undefined;
         const existsUser = await this.userAccountService.findUserByEmail(verificationPayload.email)
         if(!existsUser) {
             const userDto: UserDto = {
-                id: null,
                 email: verificationPayload.email,
             }
             userId = await this.userAccountService.registerNewUser(userDto)
