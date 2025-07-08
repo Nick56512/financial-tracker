@@ -30,9 +30,8 @@ export class ReportDto {
     payments: PaymentDto[];
 }
 
-
 export class UserDto {
-    id?: string
+    id: string | null
     email: string
     age?: number
     name?: string

@@ -1,7 +1,8 @@
 export const enum INJECTION_KEYS {
     DbContext = 'DB_CONTEXT',
     CategoryService = 'CategoryService',
-    UserService = 'UserService',
+    UserAccountService = 'UserAccountService',
+    UserCrudService = 'UserCrudService',
     VerificationManager = 'VerificationManager'
 }
 

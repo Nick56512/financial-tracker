@@ -1,16 +1,17 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe, Inject, BadRequestException, Put } from "@nestjs/common";
-import { IUserService } from "./user.service";
+import { Controller, Post, Body, UsePipes, ValidationPipe, Inject, BadRequestException, Put, UseGuards } from "@nestjs/common";
 import { CacheDataKeys, ControllersRoutes, EndpointsRoutes, INJECTION_KEYS } from "types";
 import { JwtService } from "@nestjs/jwt";
 import { LoginPayload, SetAccountInfoPayload, VerificationPayload } from "models/request.models";
 import { IVerificationManager } from "./verification/iverification.manager";
 import { UserDto } from "models/dtos";
+import { JwtAuthGuard } from "../global/jwt-auth-module/guard-strategy/jwt.auth.guard";
+import { IUserAccountService } from "./user.account.service";
 
 @Controller(ControllersRoutes.authorization)
 @UsePipes(new ValidationPipe({ whitelist: true }))
 export class AuthController {
     
-    constructor(@Inject(INJECTION_KEYS.UserService) private readonly userService: IUserService,
+    constructor(@Inject(INJECTION_KEYS.UserAccountService) private readonly userAccountService: IUserAccountService,
                 @Inject(INJECTION_KEYS.VerificationManager) private readonly verificationManager: IVerificationManager,
                 private readonly jwtService: JwtService,
                 ) {}
@@ -22,14 +23,19 @@ export class AuthController {
         if(!verificationSuccess) {
             throw new BadRequestException('Expired or wrong verification code')
         }
-        const existsUser = await this.userService.findUserByEmail(verificationPayload.email)
+        let userId: string | null;
+        const existsUser = await this.userAccountService.findUserByEmail(verificationPayload.email)
         if(!existsUser) {
             const userDto: UserDto = {
+                id: null,
                 email: verificationPayload.email,
             }
-            await this.userService.registerNewUser(userDto)
+            userId = await this.userAccountService.registerNewUser(userDto)
         }
-        const payload = { email: verificationPayload.email}
+        else {
+            userId = existsUser.id
+        }
+        const payload = { email: verificationPayload.email, sub: userId}
         return { access_token: this.jwtService.sign(payload) }
     }
 
@@ -44,27 +50,12 @@ export class AuthController {
     }
 
     @Put(EndpointsRoutes.setAccountInfo)
+    @UseGuards(JwtAuthGuard)
     public async setAccountInfo(@Body() accountInfo: SetAccountInfoPayload) {
-        const existsUser = await this.userService.findUserByEmail(accountInfo.email)
+        const existsUser = await this.userAccountService.findUserByEmail(accountInfo.email)
         if(!existsUser) {
             throw new BadRequestException()
         } 
+        // TO DO: set account info
     }
-
-
-    /*@Post('register')
-    public async register(@Body() registerPayload: RegisterPayload) {
-        /*const newUser: UserDto = {
-            age: registerPayload.age,
-            email: registerPayload.email,
-            name: registerPayload.name,
-        }
-        /*const registerResult = await this.userService.registerNewUser(newUser)  //TODO: remove registration
-        if(!registerResult) {
-            throw new BadRequestException(`User with email ${newUser.email} is already exists`)
-        }
-
-        await this.verificationManager.createCode(`${CacheDataKeys.verificationCode}:${newUser.email}`)
-        return { verificationNeed: true }
-    }*/
 }

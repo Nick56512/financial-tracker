@@ -1,18 +1,18 @@
 import { Injectable } from "@nestjs/common";
 import { IUserRepository, User } from "data-provider";
 import { UserDto } from "models/dtos";
-import { AbstractService, Mapper } from "infrastructure";
+import { Mapper } from "infrastructure";
 
-export interface IUserService {
+export interface IUserAccountService {
     findUserByEmail(email: string): Promise<UserDto | null>
-    registerNewUser(newUser: UserDto): Promise<boolean>
+    registerNewUser(newUser: UserDto): Promise<string>
+    setAccountInfo(updatedUserDto: UserDto): Promise<boolean>
 }
 
 @Injectable()
-export class UserService extends AbstractService<User, UserDto> implements IUserService {
+export class UserAccountService implements IUserAccountService {
     constructor(protected readonly userRepository: IUserRepository,
                 protected readonly mapper: Mapper<User, UserDto>) {
-        super(userRepository, mapper)
     }
     async findUserByEmail(email: string): Promise<UserDto | null> {
         const user = await this.userRepository.findByEmail(email)
@@ -21,8 +21,13 @@ export class UserService extends AbstractService<User, UserDto> implements IUser
         }
         return this.mapper.mapToDto(user)
     }
-    async registerNewUser(newUser: UserDto): Promise<boolean> {
+    async registerNewUser(newUser: UserDto): Promise<string> {
         const user = this.mapper.mapToEntity(newUser)
-        return (await this.userRepository.createOrUpdate(user)) != null
+        const addedUser = await this.userRepository.createOrUpdate(user)
+        return addedUser.id;
+    }
+
+    async setAccountInfo(updatedUserDto: UserDto): Promise<boolean> {
+        return true;    //TODO: update profile user
     }
 }
