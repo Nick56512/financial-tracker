@@ -14,7 +14,10 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node ./build/orm.js",
-    "test": "jest"
+    "test": "jest",
+    "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d ./migrations/migration.ts",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ./migrations/migration.ts",
+    "migartion:revert": "npx typeorm-ts-node-commonjs migration:revert -d ./migrations/migration.ts"
   },
   "dependencies": {
     "@types/jest": "^29.5.14",

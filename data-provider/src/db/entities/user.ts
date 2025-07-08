@@ -12,7 +12,7 @@ export class User extends PrimaryKeyEntity {
     @Column({ type: 'int', nullable: true })
     age: number
 
-    @Column({ type: 'varchar', length: 255 })
+    @Column({ type: 'varchar', length: 255, nullable: true })
     name: string
 
     @OneToMany(() => Payments, (payment) => payment.user)

@@ -9,17 +9,22 @@ export class VerificationPayload {
     verificationCode: number
 }
 
-export class RegisterPayload {
+export class LoginPayload {
+    @IsEmail()
+    @IsNotEmpty()
+    email: string
+}
+
+export class SetAccountInfoPayload {
     @IsEmail()
     @IsNotEmpty()
     email: string
 
     @IsNumber()
-    @Min(18)
+    @Min(8)
     age: number
 
     @IsString()
     @IsNotEmpty()
     name: string
-
 }

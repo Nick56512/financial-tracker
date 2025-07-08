@@ -25,4 +25,26 @@ export const enum CacheDataKeys {
     verificationCode = 'api:verificationCode:',
 }
 
+export const enum ControllersRoutes {
+    authorization = 'auth',
+    category = 'category',
+    payment = 'payment',
+    report = 'report'
+}
+
+export const enum EndpointsParameters {
+    id = 'id'
+}
+
+export const enum EndpointsRoutes {
+    getById = 'getById',
+    all = 'all',
+    create = 'create',
+    remove = 'remove',
+
+    verify = 'verify',
+    sendCode = 'sendCode',
+    setAccountInfo = 'setAccountInfo'
+}
+
 //TODO: write routes and controllers

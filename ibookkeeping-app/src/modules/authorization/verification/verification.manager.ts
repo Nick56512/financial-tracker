@@ -11,7 +11,13 @@ export class VerificationManager implements IVerificationManager {
 
     async createCode(cacheStoreKey: string): Promise<void> {
         const code = Math.floor(100000 + Math.random() * 900000);
+        console.log(code)
         await this.cacheManager.set<number>(cacheStoreKey, code, this.codeTtl);
+    }
+
+    async isExistsCode(cacheStoreKey: string): Promise<boolean> {
+        const code = await this.cacheManager.get<number>(cacheStoreKey)
+        return !!code
     }
 
     async verificate(cacheStoreKey: string, inputCode: number): Promise<boolean> {

@@ -34,7 +34,7 @@ export class ReportDto {
 export class UserDto {
     id?: string
     email: string
-    age: number
-    name: string
+    age?: number
+    name?: string
 }
 
