@@ -6,10 +6,12 @@ import { IVerificationManager } from "./verification/iverification.manager";
 import { UserDto } from "models/dtos";
 import { JwtAuthGuard } from "../global/jwt-auth-module/guard-strategy/jwt.auth.guard";
 import { IUserAccountService } from "./user.account.service";
+import { User } from "decorators/user.decorator";
+import { JwtPayload } from "modules/global/jwt-auth-module/guard-strategy/jwt.strategy";
 
 @Controller(ControllersRoutes.authorization)
 @UsePipes(new ValidationPipe({ whitelist: true }))
-export class AuthController {
+export class UserAccountController {
     
     constructor(@Inject(INJECTION_KEYS.UserAccountService) private readonly userAccountService: IUserAccountService,
                 @Inject(INJECTION_KEYS.VerificationManager) private readonly verificationManager: IVerificationManager,
@@ -34,7 +36,7 @@ export class AuthController {
         else {
             userId = existsUser.id
         }
-        const payload = { email: verificationPayload.email, sub: userId}
+        const payload: JwtPayload = { email: verificationPayload.email, userId}
         return { access_token: this.jwtService.sign(payload) }
     }
 
@@ -50,11 +52,21 @@ export class AuthController {
 
     @Put(EndpointsRoutes.setAccountInfo)
     @UseGuards(JwtAuthGuard)
-    public async setAccountInfo(@Body() accountInfo: SetAccountInfoPayload) {
-        const existsUser = await this.userAccountService.findUserByEmail(accountInfo.email)
+    public async setAccountInfo(@Body() accountInfo: SetAccountInfoPayload,
+                                @User() user: JwtPayload) {
+        const existsUser = await this.userAccountService.findUserByEmail(user.email)
         if(!existsUser) {
             throw new BadRequestException()
         } 
-        // TO DO: set account info
+        if(existsUser.id !== user.userId) {
+            throw new BadRequestException()
+        }
+
+        const result = await this.userAccountService.updateAccountInfo({
+           ...accountInfo,
+           email: existsUser.email,
+           id: existsUser.id
+        })
+        return { success: result }
     }
 }

@@ -16,10 +16,6 @@ export class LoginPayload {
 }
 
 export class SetAccountInfoPayload {
-    @IsEmail()
-    @IsNotEmpty()
-    email: string
-
     @IsNumber()
     @Min(8)
     age: number

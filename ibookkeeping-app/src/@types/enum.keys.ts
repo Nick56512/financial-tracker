@@ -3,7 +3,8 @@ export const enum INJECTION_KEYS {
     CategoryService = 'CategoryService',
     UserAccountService = 'UserAccountService',
     UserCrudService = 'UserCrudService',
-    VerificationManager = 'VerificationManager'
+    VerificationManager = 'VerificationManager',
+    PaymentService = 'PaymentService'
 }
 
 export const enum ConfigurationParameters {

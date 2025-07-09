@@ -6,7 +6,7 @@ import { Mapper } from "infrastructure";
 export interface IUserAccountService {
     findUserByEmail(email: string): Promise<UserDto | null>
     registerNewUser(newUser: UserDto): Promise<string>
-    setAccountInfo(updatedUserDto: UserDto): Promise<boolean>
+    updateAccountInfo(updatedUserDto: UserDto): Promise<boolean>
 }
 
 @Injectable()
@@ -27,7 +27,8 @@ export class UserAccountService implements IUserAccountService {
         return addedUser.id;
     }
 
-    async setAccountInfo(updatedUserDto: UserDto): Promise<boolean> {
-        return true;    //TODO: update profile user
+    async updateAccountInfo(updatedUserDto: UserDto): Promise<boolean> {
+       const updatedUser = await this.registerNewUser(updatedUserDto)
+       return typeof updatedUser === 'string' && updatedUser.length !== 0
     }
 }

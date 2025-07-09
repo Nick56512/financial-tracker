@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { INJECTION_KEYS } from "types";
-import { AuthController } from "./auth.controller";
+import { UserAccountController } from "./user.account.controller";
 import { DbContext, User, UserRepositoryCreator } from "data-provider";
 import { UserAccountService } from "./user.account.service";
 import { Mapper } from "infrastructure/service/mapper/mapper";
@@ -9,7 +9,7 @@ import { VerificationManager } from "./verification/verification.manager";
 
 @Module({
     imports: [],
-    controllers: [AuthController],
+    controllers: [ UserAccountController ],
     providers: [
         {
             provide: INJECTION_KEYS.UserAccountService,
@@ -26,4 +26,4 @@ import { VerificationManager } from "./verification/verification.manager";
         }    
     ]
 })
-export class AuthModule {}
+export class UserAccountModule {}

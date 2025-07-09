@@ -8,7 +8,7 @@ import { UserDto } from "models/dtos";
 
 export type JwtPayload = {
     email: string,
-    sub: string         //this is user id
+    userId: string | undefined         
 }
 
 export class JwtGuardStrategy extends PassportStrategy(Strategy) {
@@ -22,11 +22,14 @@ export class JwtGuardStrategy extends PassportStrategy(Strategy) {
     }
     
 
-    validate(payload: JwtPayload) {
-        const existsUser = this.userCrudService.findById(payload.sub)
+    async validate(payload: JwtPayload): Promise<JwtPayload> {
+        if(!payload.userId) {
+            throw new UnauthorizedException()
+        }
+        const existsUser = await this.userCrudService.findById(payload.userId)
         if(!existsUser) {
             throw new UnauthorizedException()
         }
-        return existsUser
+        return { email: existsUser.email, userId: existsUser.id  } 
     }
 }
