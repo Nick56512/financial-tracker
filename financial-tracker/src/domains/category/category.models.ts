@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator"
+import { IsEmpty, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
 export class CategoryDto {
     name: string
@@ -10,4 +10,8 @@ export class CreateNewCategoryModel {
     @IsString()
     @IsNotEmpty()
     name: string
+
+    @IsEmpty()
+    @IsNumber()
+    allocatedBudget?: number
 }

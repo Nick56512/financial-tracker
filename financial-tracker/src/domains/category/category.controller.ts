@@ -23,10 +23,10 @@ export class CategoryController {
     @UsePipes(new ValidationPipe({ whitelist: true }))
     public async createCategory(@Body() newCategory: CreateNewCategoryModel) {
         const categoryId = await this.categoryService.createOrUpdate({
-            allocatedBudget: 20,
-            name: 'ddd'
+            allocatedBudget: 0,
+            name: newCategory.name
         }) 
-        return 
+        return { id: categoryId, name: newCategory.name }
     }
 
     @Delete(EndpointsRoutes.remove)
