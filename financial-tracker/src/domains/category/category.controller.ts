@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, Query } from "@nestjs/common";
+import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, Query, UseGuards } from "@nestjs/common";
 import { ControllersRoutes, EndpointsParameters, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
 import { CategoryDto } from "models/dtos";
 import { ICategoryService } from "./category.service";
 import { CreateNewCategoryModel } from "./category.models";
+import { JwtAuthGuard } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.auth.guard";
 
 @Controller(ControllersRoutes.category)
+@UseGuards(JwtAuthGuard)
 export class CategoryController {
 
     constructor(@Inject(INJECTION_KEYS.CategoryService) private readonly categoryService: ICategoryService) {}
 
-    @Get(EndpointsRoutes.all)
+    @Get(EndpointsRoutes.getAllCategories)
     public async getAll(): Promise<CategoryDto[]> {
         return this.categoryService.getAll()
     }
@@ -32,5 +34,10 @@ export class CategoryController {
     @Delete(EndpointsRoutes.remove)
     public async removeCategory(@Query(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
         return this.categoryService.removeById(id)
+    }
+
+    @Get(EndpointsRoutes.getAllPayments)
+    public async getAllPayments(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
+        return this.categoryService.getAllCategoryPayments(id)
     }
 }

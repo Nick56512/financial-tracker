@@ -22,5 +22,4 @@ export class Payments extends PrimaryKeyEntity {
 
     @Column({ type: 'uuid' })
     categoryId: string
-    
 }

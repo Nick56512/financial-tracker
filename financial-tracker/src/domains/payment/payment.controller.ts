@@ -10,7 +10,7 @@ import { IUserPaymentsService } from "./payment.service";
 export class PaymentsController {
     constructor(@Inject(INJECTION_KEYS.PaymentService) private readonly paymentService: IUserPaymentsService) {}
 
-    @Get(EndpointsRoutes.all)
+    @Get(EndpointsRoutes.getAllPayments)
     public async getAllPayments(@User() user: JwtPayload) {
         if(!user.userId) {
             throw new BadRequestException()

@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { PrimaryKeyEntity } from "./primary.key.entity";
-import { Payments } from "./payments";
 import { User } from "./user";
 import { Category } from "./category";
 
@@ -26,8 +25,12 @@ export class Report extends PrimaryKeyEntity {
     budgetPeriod: BudgetPeriod;
 
     @OneToMany(() => Category, (category) => category.report)
-    categories: Category[]
+    categories: Promise<Category[]>
 
     @ManyToOne(() => User, (user) => user.reports)
+    @JoinColumn({ name: 'userId' })
     user: User;
+
+    @Column({ type: 'uuid' })
+    userId: string
 }

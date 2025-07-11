@@ -46,9 +46,12 @@ export const enum EndpointsParameters {
 
 export const enum EndpointsRoutes {
     getById = 'getById',
-    all = 'all',
     create = 'create',
     remove = 'remove',
+
+    getAllPayments = 'getAllPayments',
+    getAllCategories = 'getAllCategories',
+    getAllReports = 'getAllReports',
 
     verify = 'verify',
     sendCode = 'sendCode',
