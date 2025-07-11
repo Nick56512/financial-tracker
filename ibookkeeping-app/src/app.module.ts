@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CategoryModule } from 'modules/category/category.module';
-import { WinstonLoggerModule } from 'modules/global/winston.module';
-import { UserAccountModule } from 'modules/user-account/user.account.module';
-import { ConfigurationModule } from 'modules/global/config.module';
-import { DatabaseModule } from 'modules/global/database/database.module';
-import { CacheManagerModule } from 'modules/global/cache.manager.module';
-import { JwtAuthModule } from 'modules/global/jwt-auth-module/jwt.auth.module';
+import { CategoryModule } from 'domains/category/category.module';
+import { WinstonLoggerModule } from 'core/global-modules/winston.module';
+import { UserAccountModule } from 'domains/user-account/user.account.module';
+import { ConfigurationModule } from 'core/global-modules/config.module';
+import { DatabaseModule } from 'core/global-modules/database/database.module';
+import { CacheManagerModule } from 'core/global-modules/cache.manager.module';
+import { JwtAuthModule } from 'core/global-modules/jwt-auth-module/jwt.auth.module';
+import { PaymentsModule } from 'domains/payment/payment.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { JwtAuthModule } from 'modules/global/jwt-auth-module/jwt.auth.module';
     JwtAuthModule,
     CategoryModule,
     UserAccountModule,
-    CacheManagerModule
+    CacheManagerModule,
+    PaymentsModule
   ],
   providers: []
 })

@@ -28,4 +28,16 @@ export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModel
     getAll(): Promise<Entity[]> {
         return this.repository.find({ })
     }
+
+    findOneBy<K extends keyof Entity>(field: K, value: Entity[K]): Promise<Entity | null> {
+        return this.repository.findOneBy({
+            [field]: value
+        } as FindOptionsWhere<Entity>)
+    }
+
+    findManyBy<K extends keyof Entity>(field: K, value: Entity[K]): Promise<Entity[]> {
+        return this.repository.findBy({
+            [field]: value
+        } as FindOptionsWhere<Entity>)
+    }
 }
