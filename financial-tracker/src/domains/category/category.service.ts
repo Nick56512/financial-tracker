@@ -5,24 +5,13 @@ import { AbstractService, IMapper, IService } from "infrastructure";
 import { CategoryDto } from "models/dtos";
 
 export interface ICategoryService extends IService<CategoryDto> {
-    getAllCategoryPayments(categoryId: string): Promise<PaymentDto[]>
+    getByReportId(reportId: string): Promise<CategoryDto[]>
 }
 
 @Injectable()
 export class CategoryService extends AbstractService<Category, CategoryDto> implements ICategoryService {
-
-    constructor(private readonly categoryRepository: IModelRepository<Category>,
-        private readonly categoryMapper: IMapper<Category, CategoryDto>,
-        private readonly paymentsMapper: IMapper<Payments, PaymentDto>
-    ) {
-        super(categoryRepository, categoryMapper)
-    }
-
-    async getAllCategoryPayments(categoryId: string): Promise<PaymentDto[]> {
-        const category = await this.modelRepository.findById(categoryId)
-        if(!category) {
-            return []
-        }
-        return (await category.payments).map(x => this.paymentsMapper.mapToDto(x))
+    async getByReportId(reportId: string): Promise<CategoryDto[]> {
+        const categories = await this.modelRepository.findManyBy('reportId', reportId)
+        return categories.map(x => this.mapper.mapToDto(x))
     }
 }

@@ -6,6 +6,7 @@ export const enum INJECTION_KEYS {
     UserCrudService = 'UserCrudService',
     VerificationManager = 'VerificationManager',
     PaymentService = 'PaymentService',
+    ReportsService = 'ReportsService',
 
     PaymentsRepository = 'PaymentsRepository',
     CategoryRepository = 'CategoryRepository',
@@ -35,27 +36,23 @@ export const enum CacheDataKeys {
 
 export const enum ControllersRoutes {
     authorization = 'auth',
-    category = 'category',
-    payment = 'payment',
-    report = 'report'
+    categories = 'categories',
+    payments = 'payments',
+    reports = 'reports'
 }
 
 export const enum EndpointsParameters {
-    id = 'id'
+    id = 'id',
+    reportId = 'reportId',
+    userId = 'userId',
+    categoryId = 'categoryId'
 }
 
 export const enum EndpointsRoutes {
-    getById = 'getById',
-    create = 'create',
-    remove = 'remove',
-
-    getAllPayments = 'getAllPayments',
-    getAllCategories = 'getAllCategories',
-    getAllReports = 'getAllReports',
-
     verify = 'verify',
     sendCode = 'sendCode',
-    setAccountInfo = 'setAccountInfo'
+    setAccountInfo = 'setAccountInfo',
+    filter = 'filter'
 }
 
 //TODO: write routes and controllers

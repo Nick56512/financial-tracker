@@ -7,6 +7,7 @@ import { DatabaseModule } from 'core/global-modules/database/database.module';
 import { CacheManagerModule } from 'core/global-modules/cache.manager.module';
 import { JwtAuthModule } from 'core/global-modules/jwt-auth-module/jwt.auth.module';
 import { PaymentsModule } from 'domains/payment/payment.module';
+import { ReportsModule } from 'domains/report/report.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { PaymentsModule } from 'domains/payment/payment.module';
     CategoryModule,
     UserAccountModule,
     CacheManagerModule,
-    PaymentsModule
+    PaymentsModule,
+    ReportsModule
   ],
   providers: []
 })

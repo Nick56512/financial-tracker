@@ -22,14 +22,6 @@ export class PaymentDto {
     category: CategoryDto;
 }
 
-export class ReportDto {
-    name: string;
-    currentBudget: number;
-    plannedBudget: number;
-    budgetPeriod: BudgetPeriod;
-    payments: PaymentDto[];
-}
-
 export class UserDto {
     id?: string
     email: string

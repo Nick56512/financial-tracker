@@ -1,27 +1,27 @@
-import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, Query, UseGuards } from "@nestjs/common";
-import { ControllersRoutes, EndpointsParameters, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
+import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, UseGuards } from "@nestjs/common";
+import { ControllersRoutes, EndpointsParameters, INJECTION_KEYS } from "core/@types/enum.keys";
 import { CategoryDto } from "models/dtos";
 import { ICategoryService } from "./category.service";
 import { CreateNewCategoryModel } from "./category.models";
 import { JwtAuthGuard } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.auth.guard";
 
-@Controller(ControllersRoutes.category)
+@Controller(ControllersRoutes.categories)
 @UseGuards(JwtAuthGuard)
 export class CategoryController {
 
     constructor(@Inject(INJECTION_KEYS.CategoryService) private readonly categoryService: ICategoryService) {}
 
-    @Get(EndpointsRoutes.getAllCategories)
+    @Get()
     public async getAll(): Promise<CategoryDto[]> {
         return this.categoryService.getAll()
     }
 
-    @Get(`${EndpointsRoutes.getById}/:${EndpointsParameters.id}`)
+    @Get(`:${EndpointsParameters.id}`)
     public async getById(@Param(EndpointsParameters.id, new ParseUUIDPipe())id: string): Promise<CategoryDto | null> {
         return this.categoryService.findById(id)
     }
 
-    @Post(EndpointsRoutes.create)
+    @Post()
     @UsePipes(new ValidationPipe({ whitelist: true }))
     public async createCategory(@Body() newCategory: CreateNewCategoryModel) {
         const categoryId = await this.categoryService.createOrUpdate({
@@ -31,13 +31,13 @@ export class CategoryController {
         return { id: categoryId, name: newCategory.name }
     }
 
-    @Delete(EndpointsRoutes.remove)
-    public async removeCategory(@Query(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
+    @Delete()
+    public async removeCategory(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
         return this.categoryService.removeById(id)
     }
-
-    @Get(EndpointsRoutes.getAllPayments)
-    public async getAllPayments(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
-        return this.categoryService.getAllCategoryPayments(id)
+    // TODO: check if reports is have in user
+    @Get(`:${EndpointsParameters.reportId}`)
+    public async getAllPayments(@Param(EndpointsParameters.id, new ParseUUIDPipe()) reportId: string) {
+        return this.categoryService.getByReportId(reportId)
     }
 }

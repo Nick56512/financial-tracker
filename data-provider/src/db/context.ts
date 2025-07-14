@@ -1,5 +1,3 @@
-import { User, Payments, Report, Category } from "./entities/index";
-
 import { DataSource } from "typeorm";
 import { DbConnectOptions } from "types";
 

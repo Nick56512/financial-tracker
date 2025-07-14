@@ -5,12 +5,12 @@ import { JwtPayload } from "core/global-modules/jwt-auth-module/guard-strategy/j
 import { ControllersRoutes, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
 import { IUserPaymentsService } from "./payment.service";
 
-@Controller(ControllersRoutes.payment)
+@Controller(ControllersRoutes.payments)
 @UseGuards(JwtAuthGuard)
 export class PaymentsController {
     constructor(@Inject(INJECTION_KEYS.PaymentService) private readonly paymentService: IUserPaymentsService) {}
 
-    @Get(EndpointsRoutes.getAllPayments)
+    @Get()
     public async getAllPayments(@User() user: JwtPayload) {
         if(!user.userId) {
             throw new BadRequestException()

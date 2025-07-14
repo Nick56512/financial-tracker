@@ -14,8 +14,7 @@ import { PaymentDto } from "domains/payment/payment.models";
             provide: INJECTION_KEYS.CategoryService,
             useFactory: (repository: IModelRepository<Category>) => {
                 const categoryMapper: IMapper<Category, CategoryDto> = new Mapper(Category, CategoryDto)
-                const paymentsMapper: IMapper<Payments, PaymentDto> = new Mapper(Payments, PaymentDto)
-                return new CategoryService(repository, categoryMapper, paymentsMapper)
+                return new CategoryService(repository, categoryMapper)
             },
             inject: [ INJECTION_KEYS.CategoryRepository ]
         }
