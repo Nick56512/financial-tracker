@@ -17,7 +17,12 @@ export class ReportController {
         return this.reportsService.getAll()
     }
 
-    @Get(`:${EndpointsParameters.id}`)
+    @Get(`${EndpointsRoutes.filter}`) 
+    public getByUserId(@Query(EndpointsParameters.userId) userId: string) {
+        return this.reportsService.getByUserId(userId)
+    }
+
+    @Get(`${EndpointsParameters.id}`) 
     public getById(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string ): Promise<ReportDto | null> {
         return this.reportsService.findById(id)
     }
@@ -36,10 +41,5 @@ export class ReportController {
         }
         const newId = await this.reportsService.createOrUpdate(reportDto)
         return { id: newId }
-    }
-
-    @Get(EndpointsRoutes.filter) 
-    public getByUserId(@Query(EndpointsParameters.userId, new ParseUUIDPipe()) userId: string) {
-        return this.reportsService.getByUserId(userId)
     }
 }

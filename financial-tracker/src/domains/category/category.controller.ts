@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, UseGuards } from "@nestjs/common";
-import { ControllersRoutes, EndpointsParameters, INJECTION_KEYS } from "core/@types/enum.keys";
+import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, UseGuards, Query } from "@nestjs/common";
+import { ControllersRoutes, EndpointsParameters, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
 import { CategoryDto } from "models/dtos";
 import { ICategoryService } from "./category.service";
 import { CreateNewCategoryModel } from "./category.models";
@@ -14,6 +14,11 @@ export class CategoryController {
     @Get()
     public async getAll(): Promise<CategoryDto[]> {
         return this.categoryService.getAll()
+    }
+
+    @Get(`${EndpointsRoutes.filter}`)
+    public async getByReportId(@Query(EndpointsParameters.reportId, new ParseUUIDPipe()) reportId: string) {
+        return this.categoryService.getByReportId(reportId)
     }
 
     @Get(`:${EndpointsParameters.id}`)
@@ -35,9 +40,7 @@ export class CategoryController {
     public async removeCategory(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
         return this.categoryService.removeById(id)
     }
-    // TODO: check if reports is have in user
-    @Get(`:${EndpointsParameters.reportId}`)
-    public async getAllPayments(@Param(EndpointsParameters.id, new ParseUUIDPipe()) reportId: string) {
-        return this.categoryService.getByReportId(reportId)
-    }
+  
+
+ 
 }

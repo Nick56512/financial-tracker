@@ -1,4 +1,4 @@
-import { IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { BudgetPeriod } from "data-provider";
 
 export class CreateReportModel {
