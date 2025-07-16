@@ -13,7 +13,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node ./build/orm.js",
     "test": "jest",
     "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d ./migrations/migration.ts",
     "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ./migrations/migration.ts",

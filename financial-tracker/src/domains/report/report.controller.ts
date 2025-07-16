@@ -37,7 +37,7 @@ export class ReportController {
             name: createReportModel.name,
             plannedBudget: createReportModel.plannedBudget,
             userId: user.userId,
-            currentBudget: 0
+            currentBudget: createReportModel.currentBudget
         }
         const newId = await this.reportsService.createOrUpdate(reportDto)
         return { id: newId }

@@ -3,7 +3,7 @@ import { Payments } from './payments'
 import { Report } from './report'
 import { PrimaryKeyEntity } from './primary.key.entity'
 
-@Entity()
+@Entity({ name: 'users' })
 export class User extends PrimaryKeyEntity {
         
     @Column({ type: 'varchar', length: 255, unique: true })

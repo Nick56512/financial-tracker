@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Category, IModelRepository, Payments } from "data-provider";
-import { PaymentDto } from "domains/payment/payment.models";
-import { AbstractService, IMapper, IService } from "infrastructure";
-import { CategoryDto } from "models/dtos";
+import { Category } from "data-provider";
+import { AbstractService, IService } from "infrastructure";
+import { CategoryDto } from "./category.models";
 
 export interface ICategoryService extends IService<CategoryDto> {
     getByReportId(reportId: string): Promise<CategoryDto[]>

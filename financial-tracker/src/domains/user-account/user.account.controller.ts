@@ -1,13 +1,12 @@
 import { Controller, Post, Body, UsePipes, ValidationPipe, Inject, BadRequestException, Put, UseGuards } from "@nestjs/common";
 import { CacheDataKeys, ControllersRoutes, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
 import { JwtService } from "@nestjs/jwt";
-import { LoginPayload, SetAccountInfoPayload, VerificationPayload } from "models/request.models";
 import { IVerificationManager } from "./verification/iverification.manager";
-import { UserDto } from "models/dtos";
 import { JwtAuthGuard } from "../../core/global-modules/jwt-auth-module/guard-strategy/jwt.auth.guard";
 import { IUserAccountService } from "./user.account.service";
 import { User } from "core/decorators/user.decorator";
 import { JwtPayload } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.strategy";
+import { LoginPayload, SetAccountInfoPayload, UserDto, VerificationPayload } from "./user.account.models";
 
 @Controller(ControllersRoutes.authorization)
 @UsePipes(new ValidationPipe({ whitelist: true }))

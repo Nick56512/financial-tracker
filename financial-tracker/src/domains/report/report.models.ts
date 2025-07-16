@@ -1,24 +1,21 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { BudgetPeriod } from "data-provider";
 
 export class CreateReportModel {
     @IsString()
     @IsNotEmpty()
     name: string;
 
+    @IsNumber()
+    currentBudget: number;
+
     @IsOptional()
     @IsNumber()
-    currentBudget?: number;
-
-    @IsNumber()
-    plannedBudget: number;
+    plannedBudget?: number;
 }
 
 export class ReportDto {
     name: string;
-    plannedBudget: number;
+    plannedBudget?: number;
     userId: string;
-
-    budgetPeriod?: BudgetPeriod;
     currentBudget?: number;
 }

@@ -1,11 +1,10 @@
 import { Module } from "@nestjs/common";
 import { CategoryController } from "./category.controller";
 import { INJECTION_KEYS } from "core/@types/enum.keys";
-import { Category, IModelRepository, Payments } from "data-provider";
+import { Category, IModelRepository } from "data-provider";
 import { IMapper, Mapper } from "infrastructure";
-import { CategoryDto } from "models/dtos";
 import { CategoryService } from "./category.service";
-import { PaymentDto } from "domains/payment/payment.models";
+import { CategoryDto } from "./category.models";
 
 @Module({
     controllers: [ CategoryController ],

@@ -1,8 +1,7 @@
 import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, UseGuards, Query } from "@nestjs/common";
 import { ControllersRoutes, EndpointsParameters, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
-import { CategoryDto } from "models/dtos";
 import { ICategoryService } from "./category.service";
-import { CreateNewCategoryModel } from "./category.models";
+import { CategoryDto, CreateNewCategoryModel } from "./category.models";
 import { JwtAuthGuard } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.auth.guard";
 
 @Controller(ControllersRoutes.categories)
@@ -16,6 +15,7 @@ export class CategoryController {
         return this.categoryService.getAll()
     }
 
+    // TODO? : check if category have in user
     @Get(`${EndpointsRoutes.filter}`)
     public async getByReportId(@Query(EndpointsParameters.reportId, new ParseUUIDPipe()) reportId: string) {
         return this.categoryService.getByReportId(reportId)
@@ -30,7 +30,7 @@ export class CategoryController {
     @UsePipes(new ValidationPipe({ whitelist: true }))
     public async createCategory(@Body() newCategory: CreateNewCategoryModel) {
         const categoryId = await this.categoryService.createOrUpdate({
-            allocatedBudget: 0,
+            allocatedBudget: newCategory.allocatedBudget,
             name: newCategory.name
         }) 
         return { id: categoryId, name: newCategory.name }
@@ -40,7 +40,4 @@ export class CategoryController {
     public async removeCategory(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
         return this.categoryService.removeById(id)
     }
-  
-
- 
 }

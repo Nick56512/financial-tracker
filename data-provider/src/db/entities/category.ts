@@ -3,7 +3,7 @@ import { PrimaryKeyEntity } from "./primary.key.entity";
 import { Payments } from "./payments";
 import { Report } from "./report";
 
-@Entity()
+@Entity({ name: 'categories' })
 export class Category extends PrimaryKeyEntity {
 
     @Column({ type: 'varchar', length: 255, unique: true})
@@ -12,7 +12,7 @@ export class Category extends PrimaryKeyEntity {
     @Column({ type: 'varchar', length: 255, nullable: true})
     description: string
 
-    @Column({ type: 'integer' })
+    @Column({ type: 'integer', nullable: true })
     allocatedBudget: number
 
     @ManyToOne(() => Report, (report) => report.categories)

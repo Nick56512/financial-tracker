@@ -1,8 +1,6 @@
-import { BadRequestException, Controller, Get, Inject, UseGuards } from "@nestjs/common";
-import { User } from "core/decorators/user.decorator";
+import { Controller, Get, Inject, ParseUUIDPipe, Query, UseGuards, UsePipes } from "@nestjs/common";
 import { JwtAuthGuard } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.auth.guard";
-import { JwtPayload } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.strategy";
-import { ControllersRoutes, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
+import { ControllersRoutes, EndpointsParameters, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
 import { IUserPaymentsService } from "./payment.service";
 
 @Controller(ControllersRoutes.payments)
@@ -10,12 +8,8 @@ import { IUserPaymentsService } from "./payment.service";
 export class PaymentsController {
     constructor(@Inject(INJECTION_KEYS.PaymentService) private readonly paymentService: IUserPaymentsService) {}
 
-    @Get()
-    public async getAllPayments(@User() user: JwtPayload) {
-        if(!user.userId) {
-            throw new BadRequestException()
-        }
-        const userPayments = await this.paymentService.getUserPayments(user.userId)
-        return userPayments
+    @Get(EndpointsRoutes.filter)
+    public async getByCategoryId(@Query(EndpointsParameters.categoryId, ParseUUIDPipe) categoryId: string) {
+        return this.paymentService.getByCategoryId(categoryId)
     }
 }

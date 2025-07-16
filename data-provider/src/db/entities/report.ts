@@ -3,13 +3,7 @@ import { PrimaryKeyEntity } from "./primary.key.entity";
 import { User } from "./user";
 import { Category } from "./category";
 
-export enum BudgetPeriod {
-    WEEKLY = 'weekly',
-    MONTHLY = 'monthly',
-    YEARLY = 'yearly'
-}
-
-@Entity()
+@Entity({ name: 'reports' })
 export class Report extends PrimaryKeyEntity {
     
     @Column({ type: 'varchar', length: 255 })
@@ -18,11 +12,8 @@ export class Report extends PrimaryKeyEntity {
     @Column({ type: 'integer' })
     currentBudget: number;
 
-    @Column({ type: 'integer' })
+    @Column({ type: 'integer', nullable: true })
     plannedBudget: number;
-
-    @Column( { type: 'enum', enum: BudgetPeriod, default: BudgetPeriod.MONTHLY })
-    budgetPeriod: BudgetPeriod;
 
     @OneToMany(() => Category, (category) => category.report)
     categories: Promise<Category[]>

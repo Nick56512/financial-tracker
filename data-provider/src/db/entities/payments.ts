@@ -3,7 +3,7 @@ import { PrimaryKeyEntity } from "./primary.key.entity";
 import { User } from "./user";
 import { Category } from "./category";
 
-@Entity()
+@Entity({ name: 'payments' })
 export class Payments extends PrimaryKeyEntity {
     
     @Column({ type: 'integer'})
