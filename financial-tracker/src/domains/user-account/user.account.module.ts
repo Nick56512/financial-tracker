@@ -1,12 +1,14 @@
 import { Module } from "@nestjs/common";
-import { INJECTION_KEYS } from "core/@types/enum.keys";
+import { ConfigurationParameters, INJECTION_KEYS } from "core/@types/enum.keys";
 import { UserAccountController } from "./user.account.controller";
 import { IModelRepository, User } from "data-provider";
 import { UserAccountService } from "./user.account.service";
 import { Mapper } from "infrastructure/service/mapper/mapper";
-import { UserDto } from "models/dtos";
 import { VerificationManager } from "./verification/verification.manager";
 import { IMapper } from "infrastructure";
+import { UserDto } from "./user.account.models";
+import { ConfigService } from "@nestjs/config";
+import { EmailProvider } from "./email-provider/email.provider";
 
 @Module({
     imports: [],
@@ -23,7 +25,17 @@ import { IMapper } from "infrastructure";
         {
             provide: INJECTION_KEYS.VerificationManager,
             useClass: VerificationManager,
-        }    
+        },
+        {
+            provide: INJECTION_KEYS.EmailProvider,
+            useFactory: (configService: ConfigService) => {
+                return new EmailProvider({
+                    emailApiToken: configService.getOrThrow<string>(ConfigurationParameters.EMAIL_API_KEY),
+                    emailFrom: configService.getOrThrow<string>(ConfigurationParameters.EMAIL_FROM),
+                })
+            },
+            inject: [ConfigService]
+        }
     ]
 })
 export class UserAccountModule {}

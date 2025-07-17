@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { IModelRepository, User } from "data-provider";
 import { IMapper } from "infrastructure";
-import { UserDto } from "models/dtos";
+import { UserDto } from "./user.account.models";
 
 export interface IUserAccountService {
     findUserByEmail(email: string): Promise<UserDto | null>

@@ -15,9 +15,6 @@ export class User extends PrimaryKeyEntity {
     @Column({ type: 'varchar', length: 255, nullable: true })
     name: string
 
-    @OneToMany(() => Payments, (payment) => payment.user, { lazy: true })
-    payments: Promise<Payments[]>
-
     @OneToMany(() => Report, (report) => report.user, { lazy: true })
     reports: Promise<Report[]>
 }

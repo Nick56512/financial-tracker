@@ -4,7 +4,7 @@ import { Inject, UnauthorizedException } from "@nestjs/common";
 import { ConfigurationParameters, INJECTION_KEYS } from "core/@types/enum.keys";
 import { ConfigService } from "@nestjs/config";
 import { IService } from "infrastructure";
-import { UserDto } from "models/dtos";
+import { UserDto } from "domains/user-account/user.account.models";
 
 export type JwtPayload = {
     email: string,

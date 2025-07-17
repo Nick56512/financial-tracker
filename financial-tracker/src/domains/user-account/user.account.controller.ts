@@ -7,6 +7,7 @@ import { IUserAccountService } from "./user.account.service";
 import { User } from "core/decorators/user.decorator";
 import { JwtPayload } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.strategy";
 import { LoginPayload, SetAccountInfoPayload, UserDto, VerificationPayload } from "./user.account.models";
+import { IEmailProvider } from "./email-provider/iemail.provider";
 
 @Controller(ControllersRoutes.authorization)
 @UsePipes(new ValidationPipe({ whitelist: true }))
@@ -14,6 +15,7 @@ export class UserAccountController {
     
     constructor(@Inject(INJECTION_KEYS.UserAccountService) private readonly userAccountService: IUserAccountService,
                 @Inject(INJECTION_KEYS.VerificationManager) private readonly verificationManager: IVerificationManager,
+                @Inject(INJECTION_KEYS.EmailProvider) private readonly emailProvider: IEmailProvider,
                 private readonly jwtService: JwtService,
                 ) {}
 
@@ -45,8 +47,9 @@ export class UserAccountController {
         if(await this.verificationManager.isExistsCode(codeCacheKey)) {
             throw new BadRequestException()
         }
-        await this.verificationManager.createCode(codeCacheKey)
-        return { verificationNeed: true }
+        const code = await this.verificationManager.createCode(codeCacheKey)
+        const sendResult = await this.emailProvider.sendEmail(loginPayload.email, 'code', code.toString())
+        return { success: sendResult }
     }
 
     @Put(EndpointsRoutes.setAccountInfo)

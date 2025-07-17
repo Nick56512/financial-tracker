@@ -9,10 +9,10 @@ export class VerificationManager implements IVerificationManager {
 
     constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
-    async createCode(cacheStoreKey: string): Promise<void> {
+    async createCode(cacheStoreKey: string): Promise<number> {
         const code = Math.floor(100000 + Math.random() * 900000);
-        console.log(code)
         await this.cacheManager.set<number>(cacheStoreKey, code, this.codeTtlMilliseconds);
+        return code
     }
 
     async isExistsCode(cacheStoreKey: string): Promise<boolean> {

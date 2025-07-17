@@ -4,7 +4,7 @@ import { AbstractService, IMapper, IService } from "infrastructure";
 import { PaymentDto } from "./payment.models";
 
 export interface IUserPaymentsService extends IService<PaymentDto> {
-    getByUserId(userId: string): Promise<PaymentDto[]>
+    getByReportId(reportId: string): Promise<PaymentDto[]>
     getByCategoryId(categoryId: string): Promise<PaymentDto[]>
 }
 
@@ -14,8 +14,8 @@ export class PaymentService extends AbstractService<Payments, PaymentDto> implem
                 mapper: IMapper<Payments, PaymentDto> ){
         super(paymentRepository, mapper)
     }
-    async getByUserId(userId: string): Promise<PaymentDto[]> {
-        const payments = await this.paymentRepository.findManyBy('userId', userId)
+    async getByReportId(reportId: string): Promise<PaymentDto[]> {
+        const payments = await this.paymentRepository.findManyBy('reportId', reportId)
         return payments.map(x => this.mapper.mapToDto(x))
     }
     async getByCategoryId(categoryId: string): Promise<PaymentDto[]> {

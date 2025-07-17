@@ -23,7 +23,9 @@ import { ConfigurationParameters } from "core/@types/enum.keys";
                 [ConfigurationParameters.JWT_SECRET]: Joi.string().required(),
                 [ConfigurationParameters.JWT_EXPIRES]: Joi.string().default('30d').required(),
                 [ConfigurationParameters.REDIS_HOST]: Joi.string().default('localhost').required(),
-                [ConfigurationParameters.REDIS_PORT]: Joi.number().default(6379).required()
+                [ConfigurationParameters.REDIS_PORT]: Joi.number().default(6379).required(),
+                [ConfigurationParameters.EMAIL_API_KEY]: Joi.string().required(),
+                [ConfigurationParameters.EMAIL_FROM]: Joi.string().default('onboarding@resend.dev').required()
             }),
           validationOptions: {
             abortEarly: true

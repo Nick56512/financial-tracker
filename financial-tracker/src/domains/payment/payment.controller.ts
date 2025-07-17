@@ -12,4 +12,9 @@ export class PaymentsController {
     public async getByCategoryId(@Query(EndpointsParameters.categoryId, ParseUUIDPipe) categoryId: string) {
         return this.paymentService.getByCategoryId(categoryId)
     }
+
+    @Get(EndpointsRoutes.filter)
+    public async getByReportId(@Query(EndpointsParameters.reportId, ParseUUIDPipe) reportId: string) {
+        return this.paymentService.getByCategoryId(reportId)
+    }
 }

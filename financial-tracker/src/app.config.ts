@@ -14,6 +14,8 @@ const appConfiguration = () => ({
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_EXPIRES: process.env.JWT_EXPIRES,
     REDIS_HOST: process.env.REDIS_HOST,
-    REDIS_PORT: process.env.REDIS_PORT
+    REDIS_PORT: process.env.REDIS_PORT,
+    EMAIL_API_KEY: process.env.EMAIL_API_KEY,
+    EMAIL_FROM: process.env.EMAIL_FROM
 })
 export default appConfiguration

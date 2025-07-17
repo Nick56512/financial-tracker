@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { PrimaryKeyEntity } from "./primary.key.entity";
-import { User } from "./user";
+import { Report } from "./report";
 import { Category } from "./category";
 
 @Entity({ name: 'payments' })
@@ -9,12 +9,11 @@ export class Payments extends PrimaryKeyEntity {
     @Column({ type: 'integer'})
     amount: number;
 
-    @ManyToOne(() => User, (user) => user.payments)
-    @JoinColumn({ name: 'userId' })
-    user: User;
+    @ManyToOne(() => Report, (report) => report.payments)
+    report: Report
 
-    @Column({ type: 'uuid' })
-    userId: string
+    @Column({ name: 'reportId', type: 'uuid' })
+    reportId: string
 
     @ManyToOne(() => Category, (category) => category.payments)
     @JoinColumn({ name: 'categoryId' })

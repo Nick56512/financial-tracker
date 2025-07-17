@@ -6,7 +6,7 @@ import { ConfigurationParameters, INJECTION_KEYS } from "core/@types/enum.keys";
 import { JwtGuardStrategy } from "./guard-strategy/jwt.strategy";
 import { IModelRepository, User } from "data-provider";
 import { AbstractService, IMapper, Mapper } from "infrastructure";
-import { UserDto } from "models/dtos";
+import { UserDto } from "domains/user-account/user.account.models";
 
 @Global()
 @Module({

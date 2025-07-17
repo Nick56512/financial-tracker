@@ -5,6 +5,7 @@ export const enum INJECTION_KEYS {
     UserAccountService = 'UserAccountService',
     UserCrudService = 'UserCrudService',
     VerificationManager = 'VerificationManager',
+    EmailProvider = 'EmailProvider',
     PaymentService = 'PaymentService',
     ReportsService = 'ReportsService',
 
@@ -27,7 +28,9 @@ export const enum ConfigurationParameters {
     JWT_SECRET = 'JWT_SECRET',
     JWT_EXPIRES = 'JWT_EXPIRES',
     REDIS_HOST = 'REDIS_HOST',
-    REDIS_PORT = 'REDIS_PORT'
+    REDIS_PORT = 'REDIS_PORT',
+    EMAIL_API_KEY = 'EMAIL_API_KEY',
+    EMAIL_FROM = 'EMAIL_FROM'
 }
 
 export const enum CacheDataKeys {
