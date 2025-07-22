@@ -1,7 +1,7 @@
 import Redis from "ioredis";
 import { AuthService } from "./services/auth.service";
 import { SendCodeModel } from "./models/auth.models";
-import { FinanceBotReplies } from "./@types/telegram.bot.types";
+import { FinanceBotReplies } from "./core/@types/telegram.bot.types";
 import { Telegraf } from "telegraf";
 import { message } from 'telegraf/filters'
 
