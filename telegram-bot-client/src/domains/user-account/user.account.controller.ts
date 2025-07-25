@@ -1,17 +1,10 @@
-import { TextMessageContext } from "core/@types/telegram.bot.types";
-import { UserAccountService } from "./user.account.service";
-import { IStorageManager } from "core/storage-manager/istorage.manager";
+import { BotContext } from "bot/telegram.bot.models"
+import { UserAccountService } from "./user.account.service"
 
 export class UserAccountController {
-    constructor(private readonly userAccountService: UserAccountService,
-                private readonly storageManager: IStorageManager
-    ) {}
+    constructor(private readonly userAccountService: UserAccountService) {}
 
-    private checkState
-
-    public authorization(context: TextMessageContext) {
-        const botCommand = context.message.text
-        if()
+    public authorization(context: BotContext) {
+       //this.userAccountService.
     }
-
 }

@@ -10,9 +10,3 @@ export type VerifyCodeRequest = {
 export type VerifyCodeResponse = {
     access_token: string
 }
-
-export type UserSession = {
-    email: string,
-    access_token: string,
-    current_command: string
-}

@@ -1,5 +1,6 @@
 import Redis from "ioredis";
 import { IStorageManager } from "./istorage.manager";
+import { IDispose } from "core/idispose";
 
 export type RedisStorageManagerOptions = {
     port: number,
@@ -8,7 +9,7 @@ export type RedisStorageManagerOptions = {
     retryStrategy?: ((time: number) => number | void | null)
 }
 
-export class RedisStorageManager implements IStorageManager {
+export class RedisStorageManager implements IStorageManager, IDispose {
 
     private readonly redis: Redis;
 
@@ -21,30 +22,22 @@ export class RedisStorageManager implements IStorageManager {
         })
     }
 
-    async get<T>(key: string): Promise<T | null> {
-        const json = await this.redis.get(key)
-        if(json === null) {
-            return json
-        }
-        try {
-            const value: T = JSON.parse(json) 
-            return value
-        }
-        catch(ex) {
-            console.log(ex)
-            return null
-        }
+    get(key: string): Promise<string | null> {
+        return this.redis.get(key)
     }
 
-    async set<T>(key: string, value: T): Promise<boolean> {
-        var json
-        try {
-            json = JSON.stringify(value)
-        }
-        catch(ex) {
-            console.log(ex)
-            return false
-        }
-        return (await this.redis.set(key, json)) === 'OK'
+    async set(key: string, value: string, ttlSeconds?: number): Promise<boolean> {
+        const result = ttlSeconds ? 
+            await this.redis.set(key, value, 'EX', ttlSeconds) :
+            await this.redis.set(key, value)
+        return result === 'OK'
+    }
+
+    async delete(key: string): Promise<boolean> {
+        return (await this.redis.del(key)) > 0
+    }
+
+    dispose(): void {
+        this.redis.quit()
     }
 }
