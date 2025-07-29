@@ -1,9 +1,11 @@
+import 'module-alias/register'
 import { IStorageManager } from "core/storage-manager/istorage.manager";
 import { FinanceTrackerBot } from "./bot/telegram.bot";
-import { BotSession } from "bot/telegram.bot.models";
-import { RedisStorageManager } from "core/storage-manager/redis.storage.manager";
-import { SessionProvider } from "bot/infrastructure/session-provider/session.provider";
+import { RedisStorageManager } from "./core/storage-manager/redis.storage.manager";
+import { SessionProvider } from "./bot/infrastructure/session-provider/session.provider";
 import { IDispose } from "core/idispose";
+import { UserAccountController } from "./domains/user-account/user.account.controller";
+import { UserAccountService } from "./domains/user-account/user.account.service";
 
 function main() {
   const token = '7974462926:AAGkCV6JdCrfBIsPubzZ5NUct4_TkZyuxgA'
@@ -12,7 +14,9 @@ function main() {
       port: 6379,
   })
   const sessionProvider = new SessionProvider(storage)
-  const bot: FinanceTrackerBot & IDispose = new FinanceTrackerBot(token, sessionProvider)
+  const service = new UserAccountService()
+  const authController = new UserAccountController(service)
+  const bot: FinanceTrackerBot & IDispose = new FinanceTrackerBot(token, sessionProvider, authController)
   
   process.once('SIGINT', () => {
     storage.dispose()
@@ -23,7 +27,9 @@ function main() {
     storage.dispose()
     bot.dispose()
   })
-
+  bot.useMiddlewares()
+  bot.setupCommands()
+  
   bot.launch()
 }
 

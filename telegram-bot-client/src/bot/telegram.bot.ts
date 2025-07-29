@@ -4,18 +4,20 @@ import { ISessionProvider } from "bot/infrastructure/session-provider/isession.p
 import { message } from 'telegraf/filters'
 import { BotCommands, BotCommandsStates, BotReplies } from "./telegram.bot.keys";
 import { IDispose } from "core/idispose";
+import { UserAccountController } from "domains/user-account/user.account.controller";
 
 export class FinanceTrackerBot implements IDispose {
     private readonly bot: Telegraf<BotContext>;
     
     constructor(
-        private readonly botToken: string,
-        private readonly sessionProvider: ISessionProvider<BotSession>
+        botToken: string,
+        private readonly sessionProvider: ISessionProvider<BotSession>,
+        private readonly userAccountConntroller: UserAccountController
     ) {
         this.bot = new Telegraf<BotContext>(botToken)
     }
 
-    private initCommands() {
+    public setupCommands() {
         this.bot.telegram.setMyCommands([
             { command: 'auth', description: '🔐 Авторизуватися' },
             { command: 'help', description: '🧾 Інструкція' }
@@ -35,21 +37,23 @@ export class FinanceTrackerBot implements IDispose {
         this.bot.command(BotCommands.authorization, async (ctx: BotContext) => {
             await this.sessionProvider.update(ctx.chatId.toString(), 'bot_state', BotCommandsStates.verifyEmail)
             console.log(ctx.session)
-            ctx.reply(BotReplies.sendedEmail)
+            ctx.reply(BotReplies.authorizationNeed)
         })
-        this.bot.on(message('text'), (ctx: BotContext) => {
-            if(ctx.messageText == BotCommandsStates.verifyEmail) {
-                
+        this.bot.on(message('text'), async (ctx: BotContext) => {
+            if(!ctx.session) {
+                return
+            }
+            if(ctx.session.bot_state == BotCommandsStates.verifyEmail) {
+                await this.userAccountConntroller.sendVerificationCode(ctx)
             }                
         })
-        console.log('initCommands')
     }
 
 
 
 
 
-    private useMiddlewares() {
+    public useMiddlewares() {
         // Maybe use adapter
         this.bot.use(async (ctx, next) => {
             if(!ctx.chat?.id) {

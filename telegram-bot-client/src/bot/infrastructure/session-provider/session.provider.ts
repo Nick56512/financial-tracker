@@ -1,18 +1,18 @@
 import { IStorageManager } from "core/storage-manager/istorage.manager";
-import { UserSession } from "domains/user-account/user.account.models";
 import { ISessionProvider } from "./isession.provider";
 import { IKeyBuilder, SessionKeyBuilder } from "./key-builder/key.builder";
+import { BotSession } from "bot/telegram.bot.models";
 
 // Work with user session
-export class SessionProvider implements ISessionProvider<UserSession> {
+export class SessionProvider implements ISessionProvider<BotSession> {
 
     private userSessionTtlSeconds = 604800
     constructor(private readonly storage: IStorageManager,
                 private readonly keyBuilder: IKeyBuilder = new SessionKeyBuilder()
     ) {}
 
-    public async create(chatId: string): Promise<UserSession> {
-        const newUserSession: UserSession = {
+    public async create(chatId: string): Promise<BotSession> {
+        const newUserSession: BotSession = {
             access_token: '',
             email: '',
             current_command: '',
@@ -24,14 +24,14 @@ export class SessionProvider implements ISessionProvider<UserSession> {
         return newUserSession
     }
 
-    public async getByChatId(chatId: string): Promise<UserSession | null> {
+    public async getByChatId(chatId: string): Promise<BotSession | null> {
         const sessionKey = this.keyBuilder.build(chatId)
         const sessionJson = await this.storage.get(sessionKey)
         if(!sessionJson) {
             return null
         }
         try{
-            const session: UserSession = JSON.parse(sessionJson)
+            const session: BotSession = JSON.parse(sessionJson)
             return session
         }
         catch(ex) {
@@ -40,7 +40,7 @@ export class SessionProvider implements ISessionProvider<UserSession> {
         }
     }
 
-    async update<K extends keyof UserSession>(chatId: string, propertyName: K, value: UserSession[K]): Promise<UserSession | null> {
+    async update<K extends keyof BotSession>(chatId: string, propertyName: K, value: BotSession[K]): Promise<BotSession | null> {
         const userSession = await this.getByChatId(chatId)
         if(!userSession) {
             return userSession

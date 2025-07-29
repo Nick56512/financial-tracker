@@ -1,38 +1,35 @@
-import axios, { Axios, AxiosError, HttpStatusCode } from "axios";
-import { EmailVerificationRequest, VerifyCodeRequest, VerifyCodeResponse } from "./user.account.models";
-import { FinanceApiUrls } from "api.routes";
-export class UserAccountService {
+import { FinanceApiAuthUrls } from "@core/api.routes";
+import axios, { Axios } from "axios";
+import { IVerificationService, VerifyCodeResponse } from "domains/infrastructure/iverification.service";
+
+export class UserAccountService implements IVerificationService {
     private readonly http: Axios
 
     constructor() {
         this.http = axios.create({
-            baseURL: FinanceApiUrls.baseUrl
+            baseURL: FinanceApiAuthUrls.baseUrl
         })
-        this.http.interceptors.response.use((response) => {
-            return response
-        },
-        (err: AxiosError) => {
-            if(err.response?.status === HttpStatusCode.BadRequest) {
-                console.log(JSON.stringify(err.response))
-            }
-            return err.response
-        }
-        )
     }
 
-    public async verifyEmail (model: EmailVerificationRequest): Promise<boolean> {
-        const response = await this.http.post(FinanceApiUrls.sendCode, model)
-        if(response.status === HttpStatusCode.BadRequest) {
+    public async sendVerificationCode (email: string): Promise<boolean> {
+        try {
+            const response = await this.http.post(FinanceApiAuthUrls.sendCode, { email })
+            return response.data.success
+        }
+        catch(error) {
+            console.log(error)
             return false
         }
-        return response.data.success
     }
 
-    public async sendCode (model: VerifyCodeRequest): Promise<VerifyCodeResponse | null> {
-        const response = await this.http.post(FinanceApiUrls.verifyCode, model)
-        if(response.status === HttpStatusCode.BadRequest) {
+    public async verifyCode(email: string, verificationCode: number): Promise<VerifyCodeResponse | null> {
+        try {
+            const response = await this.http.post(FinanceApiAuthUrls.verifyCode, { email, verificationCode})
+            return response.data
+        }
+        catch(error) {
+            console.log(error)
             return null
         }
-        return response.data as VerifyCodeResponse
     }
 }
