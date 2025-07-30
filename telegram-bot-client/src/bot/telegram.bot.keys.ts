@@ -1,5 +1,7 @@
-export const enum BotCommands {
+export enum BotCommands {
     authorization = 'auth',
+    start = 'start',
+    help = 'help'
 }
 export const enum BotCommandsStates {
     verifyEmail = 'verifyEmail',

@@ -16,7 +16,7 @@ function main() {
   const sessionProvider = new SessionProvider(storage)
   const service = new UserAccountService()
   const authController = new UserAccountController(service)
-  const bot: FinanceTrackerBot & IDispose = new FinanceTrackerBot(token, sessionProvider, authController)
+  const bot: FinanceTrackerBot & IDispose = new FinanceTrackerBot(token, sessionProvider)
   
   process.once('SIGINT', () => {
     storage.dispose()
@@ -28,7 +28,7 @@ function main() {
     bot.dispose()
   })
   bot.useMiddlewares()
-  bot.setupCommands()
+  bot.registerCommands()
   
   bot.launch()
 }
