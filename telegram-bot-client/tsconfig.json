@@ -11,7 +11,11 @@
     "skipLibCheck": true,
     "paths": {
       "@core/*": [ "core/*" ],
-      "@bot/*": ["bot/*"]
-    }                              
+      "@bot/*": ["bot/*"],
+      "@domains/*":["domains/*"],
+      "@config/*": ["core/config/*"]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true                              
   }
 }

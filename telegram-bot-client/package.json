@@ -25,6 +25,8 @@
   },
   "_moduleAliases": {
     "@core": "build/core",
-    "@bot": "build/bot"
+    "@bot": "build/bot",
+    "@domains": "build/domains",
+    "@config": "build/core/config"
   }
 }

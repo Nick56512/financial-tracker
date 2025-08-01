@@ -6,9 +6,14 @@ import { SessionProvider } from "./bot/infrastructure/session-provider/session.p
 import { IDispose } from "core/idispose";
 import { UserAccountController } from "./domains/user-account/user.account.controller";
 import { UserAccountService } from "./domains/user-account/user.account.service";
+import { setupIoCContainer } from '@config/setupIoC';
+import { Container } from 'inversify';
 
 function main() {
-  const token = '7974462926:AAGkCV6JdCrfBIsPubzZ5NUct4_TkZyuxgA'
+  const container: Container = setupIoCContainer()
+
+
+  /*const token = '7974462926:AAGkCV6JdCrfBIsPubzZ5NUct4_TkZyuxgA'
   const storage: IStorageManager & IDispose = new RedisStorageManager({
       host: '127.0.0.1',
       port: 6379,
@@ -30,7 +35,7 @@ function main() {
   bot.useMiddlewares()
   bot.registerCommands()
   
-  bot.launch()
+  bot.launch()*/
 }
 
 main()
