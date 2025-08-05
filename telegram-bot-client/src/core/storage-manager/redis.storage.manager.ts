@@ -1,6 +1,7 @@
 import Redis from "ioredis";
 import { IStorageManager } from "./istorage.manager";
 import { IDispose } from "core/idispose";
+import { injectable } from "inversify";
 
 export type RedisStorageManagerOptions = {
     port: number,
@@ -9,6 +10,7 @@ export type RedisStorageManagerOptions = {
     retryStrategy?: ((time: number) => number | void | null)
 }
 
+@injectable()
 export class RedisStorageManager implements IStorageManager, IDispose {
 
     private readonly redis: Redis;

@@ -2,17 +2,18 @@ import { FinanceApiEndpoints } from "@core/api.routes";
 import { IAuthorizationProvider } from "../auth-provider/iauth.provider";
 import { IHttpService } from "./ihttp.service"
 import axios, { Axios } from "axios";
+import { injectable } from "inversify";
+
+
 // мейбі написати еррор хендлер для роботи
+@injectable()
 export class AxiosHttpService<T> implements IHttpService<T>  {
 
     protected http: Axios
 
     constructor(baseUrl: string, authProvider: IAuthorizationProvider) {
         this.http = axios.create({
-            baseURL: baseUrl,
-            headers: {
-                Authorization: authProvider.getAuthorizationHeader()
-            }
+            baseURL: baseUrl
         })
     }
 

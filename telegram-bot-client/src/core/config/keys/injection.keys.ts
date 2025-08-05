@@ -3,8 +3,10 @@ export const enum IoCInjectionKeys {
 
     UserAccountController = 'UserAccountController',
 
-    BotDispatcher = 'BotDispatcher',
+    BotStageBuilder = 'BotStageBuilder',
     SessionProvider = 'SessionProvider',
+    KeyBuilder = 'KeyBuilder',
     StorageManager = 'StorageManager',
-    BotTracker = 'BotTracker'
+    BotTracker = 'BotTracker',
+    VerificationService = 'VerificationService'
 }

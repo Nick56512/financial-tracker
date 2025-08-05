@@ -1,14 +1,17 @@
-import { Context } from "telegraf";
 
-export interface BotContext extends Context {
+
+
+
+export interface BotRequest {
     chatId: number,
     messageText?: string
-    session: BotSession | null
+    session: UserSession | null,
+    ok: () => void,
+    denied: () => void
 }
 
-export type BotSession = {
+export type UserSession = {
     email: string,
     access_token: string,
-    current_command: string,
-    bot_state: string
 }
+

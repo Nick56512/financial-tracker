@@ -17,6 +17,7 @@
   "dependencies": {
     "@telegraf/session": "^2.0.0-beta.7",
     "axios": "^1.10.0",
+    "dotenv": "^17.2.1",
     "inversify": "^7.6.1",
     "ioredis": "^5.6.1",
     "module-alias": "^2.2.3",
