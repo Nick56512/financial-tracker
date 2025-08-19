@@ -1,8 +1,8 @@
 import { IStorageManager } from "core/storage-manager/istorage.manager";
-import { ISessionProvider } from "./isession.provider";
+import { ISessionProvider, UserSession } from "./isession.provider";
 import { IKeyBuilder } from "./key-builder/key.builder";
 import { injectable } from "inversify";
-import { UserSession } from "@bot/telegram.bot.models";
+
 
 @injectable()
 export class SessionProvider implements ISessionProvider<UserSession> {
@@ -13,18 +13,14 @@ export class SessionProvider implements ISessionProvider<UserSession> {
         private readonly sessionTtl: number
     ) {}
 
-    public async create(chatId: string): Promise<UserSession> {
-        const newUserSession: UserSession = {
-            access_token: '',
-            email: '',
-        }
+    public async create(chatId: number, userSession: UserSession): Promise<UserSession> {
         const sessionKey = this.keyBuilder.build(chatId)
-        const json = JSON.stringify(newUserSession)
+        const json = JSON.stringify(userSession)
         await this.storage.set(sessionKey, json, this.sessionTtl)
-        return newUserSession
+        return userSession
     }
 
-    public async getByChatId(chatId: string): Promise<UserSession | null> {
+    public async getByChatId(chatId: number): Promise<UserSession | null> {
         const sessionKey = this.keyBuilder.build(chatId)
         const sessionJson = await this.storage.get(sessionKey)
         if(!sessionJson) {
@@ -40,7 +36,7 @@ export class SessionProvider implements ISessionProvider<UserSession> {
         }
     }
 
-    async update<K extends keyof UserSession>(chatId: string, propertyName: K, value: UserSession[K]): Promise<UserSession | null> {
+    async update<K extends keyof UserSession>(chatId: number, propertyName: K, value: UserSession[K]): Promise<UserSession | null> {
         const userSession = await this.getByChatId(chatId)
         if(!userSession) {
             return userSession
@@ -53,7 +49,7 @@ export class SessionProvider implements ISessionProvider<UserSession> {
         }
         return userSession
     }
-    delete(chatId: string): Promise<boolean> {
+    delete(chatId: number): Promise<boolean> {
         const sessionKey = this.keyBuilder.build(chatId)
         return this.storage.delete(sessionKey)
     }

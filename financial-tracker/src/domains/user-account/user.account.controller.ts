@@ -37,7 +37,7 @@ export class UserAccountController {
         else {
             userId = existsUser.id
         }
-        const payload: JwtPayload = { email: verificationPayload.email, userId}
+        const payload: JwtPayload = { email: verificationPayload.email, userId }
         return { access_token: this.jwtService.sign(payload) }
     }
 
@@ -45,7 +45,9 @@ export class UserAccountController {
     public async sendCode(@Body() loginPayload: LoginPayload) {
         const codeCacheKey = `${CacheDataKeys.verificationCode}:${loginPayload.email}`
         if(await this.verificationManager.isExistsCode(codeCacheKey)) {
-            throw new BadRequestException()
+            throw new BadRequestException({
+                codeIsExists: true,
+            })
         }
         const code = await this.verificationManager.createCode(codeCacheKey)
         const sendResult = await this.emailProvider.sendEmail(loginPayload.email, 'code', code.toString())

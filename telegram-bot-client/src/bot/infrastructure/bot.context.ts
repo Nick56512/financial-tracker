@@ -1,7 +1,7 @@
 import { Scenes, Context } from "telegraf";
 import { Update } from "telegraf/types"
 
-interface UserData {
+type UserData = {
     email : string
 }
 

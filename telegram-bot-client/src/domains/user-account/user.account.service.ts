@@ -1,6 +1,7 @@
 import { FinanceApiAuthUrls } from "@core/api.routes";
-import axios, { Axios } from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import { IVerificationService, VerifyCodeResponse } from "domains/infrastructure/iverification.service";
+import { SendCodeResponse } from "./user.account.models";
 
 export class UserAccountService implements IVerificationService {
     private readonly http: Axios
@@ -11,14 +12,38 @@ export class UserAccountService implements IVerificationService {
         })
     }
 
-    public async sendVerificationCode (email: string): Promise<boolean> {
+    public async sendVerificationCode (email: string): Promise<SendCodeResponse> {
         try {
             const response = await this.http.post(FinanceApiAuthUrls.sendCode, { email })
-            return response.data.success
+            return {
+                success: response.data.success,
+                isCodeExists: false
+            }
         }
-        catch(error) {
-            console.log(error)
-            return false
+        catch(error: unknown) {
+            if(!(error instanceof AxiosError)) {
+                return {
+                    success: false,
+                    isCodeExists: false
+                }
+            }
+            const axiosError = error as AxiosError<SendCodeResponse>
+            if(!axiosError.response || !axiosError.response.data) {
+                return {
+                    success: false,
+                    isCodeExists: false
+                }
+            }
+            if(axiosError.response.data.isCodeExists) {
+                return {
+                    success: false,
+                    isCodeExists: true
+                }
+            }
+            return {
+                success: false,
+                isCodeExists: false
+            }
         }
     }
 

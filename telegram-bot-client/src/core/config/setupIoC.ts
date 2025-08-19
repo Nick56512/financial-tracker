@@ -1,20 +1,23 @@
 import { Container } from "inversify";
 import { IoCInjectionKeys } from "./keys/injection.keys";
 import { UserAccountController } from "@domains/user-account/user.account.controller";
-import { ISessionProvider } from "@bot/infrastructure/session-provider/isession.provider";
-import { UserSession } from "@bot/telegram.bot.models";
+import { ISessionProvider } from "@domains/infrastructure/session-provider/isession.provider";
+import { UserSession } from "@domains/infrastructure/session-provider/isession.provider";
 import { IStorageManager } from "@core/storage-manager/istorage.manager";
 import { FinanceTrackerBot } from "@bot/telegram.bot";
 import config from "@config/app.config"
 import { RedisStorageManager } from "@core/storage-manager/redis.storage.manager";
-import { IKeyBuilder, SessionKeyBuilder } from "@bot/infrastructure/session-provider/key-builder/key.builder";
-import { SessionProvider } from "@bot/infrastructure/session-provider/session.provider";
+import { IKeyBuilder, SessionKeyBuilder } from "@domains/infrastructure/session-provider/key-builder/key.builder";
+import { SessionProvider } from "@domains/infrastructure/session-provider/session.provider";
 import { IVerificationService } from "@domains/infrastructure/iverification.service";
 import { UserAccountService } from "@domains/user-account/user.account.service";
 import { IBuilder } from "@bot/infrastructure/stage-builder/ibuilder";
 import { Scenes } from "telegraf";
 import { BotContext } from "@bot/infrastructure/bot.context";
 import { BotStageBuilder } from "@bot/infrastructure/stage-builder/stage.builder";
+import { AxiosHttpService } from "@domains/infrastructure/http-service/axios.http.service";
+import { IHttpService } from "@domains/infrastructure/http-service/ihttp.service";
+import { IAuthHttpService } from "@domains/infrastructure/http-service/iauth.http.service";
 
 export function setupIoCContainer(): Container {
     const container = new Container()
@@ -52,5 +55,7 @@ function setupControllers(container: Container) {
 }
 
 function setupServices(container: Container) {
-    //container.bind<IHttpService<Report>>(IoCInjectionKeys.ReportsService).to(AxiosHttpService<Report>)
+    container.bind<IAuthHttpService<Report>>(IoCInjectionKeys.ReportsService).toDynamicValue(() => {
+        
+    })
 }

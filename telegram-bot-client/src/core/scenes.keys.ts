@@ -1,3 +1,4 @@
 export const enum ScenesKeys {
-    Authorization = 'authorization'
+    Authorization = 'authorization',
+    GetAllReports = 'GetAllReports'
 }
