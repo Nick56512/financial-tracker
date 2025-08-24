@@ -1,20 +1,19 @@
-import { FinanceApiAuthUrls } from "@core/api.routes";
 import axios, { Axios, AxiosError } from "axios";
-import { IVerificationService, VerifyCodeResponse } from "domains/infrastructure/iverification.service";
-import { SendCodeResponse } from "./user.account.models";
+import { IVerificationService, VerifyCodeResponse, SendCodeResponse } from "@domains/infrastructure/iverification.service";
+import { FinanceApiBaseUrls, FinanceApiEndpoints } from "@core/api.routes";
 
 export class UserAccountService implements IVerificationService {
     private readonly http: Axios
 
     constructor() {
         this.http = axios.create({
-            baseURL: FinanceApiAuthUrls.baseUrl
+            baseURL: FinanceApiBaseUrls.baseAuthUrl
         })
     }
 
     public async sendVerificationCode (email: string): Promise<SendCodeResponse> {
         try {
-            const response = await this.http.post(FinanceApiAuthUrls.sendCode, { email })
+            const response = await this.http.post(FinanceApiEndpoints.sendCode, { email })
             return {
                 success: response.data.success,
                 isCodeExists: false
@@ -49,7 +48,7 @@ export class UserAccountService implements IVerificationService {
 
     public async verifyCode(email: string, verificationCode: number): Promise<VerifyCodeResponse | null> {
         try {
-            const response = await this.http.post(FinanceApiAuthUrls.verifyCode, { email, verificationCode})
+            const response = await this.http.post(FinanceApiEndpoints.verifyCode, { email, verificationCode})
             return response.data
         }
         catch(error) {

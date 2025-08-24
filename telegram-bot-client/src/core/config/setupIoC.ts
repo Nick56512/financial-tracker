@@ -18,12 +18,17 @@ import { BotStageBuilder } from "@bot/infrastructure/stage-builder/stage.builder
 import { AxiosHttpService } from "@domains/infrastructure/http-service/axios.http.service";
 import { IHttpService } from "@domains/infrastructure/http-service/ihttp.service";
 import { IAuthHttpService } from "@domains/infrastructure/http-service/iauth.http.service";
+import { FinanceApiBaseUrls } from "@core/api.routes";
+import { IAuthorizationProvider } from "@domains/infrastructure/http-service/auth-provider/iauth.provider";
+import { JwtAuthorizationProvider } from "@domains/infrastructure/http-service/auth-provider/jwt.auth.provider";
+import { ReportsController } from "@domains/reports/reports.controller";
+import { Category } from "@domains/category/category.model";
 
 export function setupIoCContainer(): Container {
     const container = new Container()
-    setupBot(container)
-    setupControllers(container)
     setupServices(container)
+    setupControllers(container)
+    setupBot(container)
     return container
 }
 
@@ -50,12 +55,19 @@ function setupBot(container: Container) {
 }
 
 function setupControllers(container: Container) {
-    container.bind<IVerificationService>(IoCInjectionKeys.VerificationService).to(UserAccountService)
     container.bind<UserAccountController>(IoCInjectionKeys.UserAccountController).to(UserAccountController)
+    container.bind<ReportsController>(IoCInjectionKeys.ReportsController).to(ReportsController)
 }
 
 function setupServices(container: Container) {
-    container.bind<IAuthHttpService<Report>>(IoCInjectionKeys.ReportsService).toDynamicValue(() => {
-        
+    container.bind<IVerificationService>(IoCInjectionKeys.VerificationService).to(UserAccountService)
+    container.bind<IAuthorizationProvider>(IoCInjectionKeys.AuthorizationProvider).to(JwtAuthorizationProvider)
+    container.bind<IAuthHttpService & IHttpService<Report>>(IoCInjectionKeys.ReportsService).toDynamicValue(() => {
+        const provider = container.get<IAuthorizationProvider>(IoCInjectionKeys.AuthorizationProvider)
+        return new AxiosHttpService(FinanceApiBaseUrls.baseReportsUrl, provider)
+    })
+    container.bind<IAuthHttpService & IHttpService<Category>>(IoCInjectionKeys.CategoryService).toDynamicValue(() => {
+        const provider = container.get<IAuthorizationProvider>(IoCInjectionKeys.AuthorizationProvider)
+        return new AxiosHttpService(FinanceApiBaseUrls.baseCategoriesUrl, provider)
     })
 }

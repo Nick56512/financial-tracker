@@ -18,7 +18,8 @@ export class EmailProvider implements IEmailProvider {
             from: this.emailOptions.emailFrom,
             to: emailTo,
             subject: subject,
-            html: text
+            html: text,
+            text: text.replace(/<[^>]+>/g, '')
         })
         return response.data?.id !== undefined
     }

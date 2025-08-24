@@ -1,5 +1,3 @@
-import { IHttpService } from "./ihttp.service";
-
-export interface IAuthHttpService<T> extends IHttpService<T> {
+export interface IAuthHttpService {
     setAuthenticationToken(token: string): void
 }

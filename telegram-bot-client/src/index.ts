@@ -11,6 +11,7 @@ function main() {
   const bot = global.iocContainer.get<FinanceTrackerBot>(IoCInjectionKeys.BotTracker)
   bot.useMiddlewares()
   bot.registerCommands()
+  bot.registerKeyboardButtons()
   bot.launch()
 }
 

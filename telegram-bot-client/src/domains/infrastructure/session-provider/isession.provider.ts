@@ -2,6 +2,8 @@
 export type UserSession = {
     email: string,
     access_token: string,
+    userId: string,
+    currentReportId?: string
 }
 
 export interface ISessionProvider<T> {

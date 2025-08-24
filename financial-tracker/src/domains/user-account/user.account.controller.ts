@@ -38,7 +38,7 @@ export class UserAccountController {
             userId = existsUser.id
         }
         const payload: JwtPayload = { email: verificationPayload.email, userId }
-        return { access_token: this.jwtService.sign(payload) }
+        return { access_token: this.jwtService.sign(payload), userId }
     }
 
     @Post(EndpointsRoutes.sendCode) 

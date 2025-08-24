@@ -5,8 +5,15 @@ type UserData = {
     email : string
 }
 
+type ReportData = {
+    reportName: string
+    plannedBudget: number
+    currentBudget: number
+}
+
 export interface BotSession extends Scenes.WizardSessionData {
-    data: UserData
+    user: UserData
+    report: ReportData
 }
 
 export interface BotContext extends Context<Update> {

@@ -1,10 +1,10 @@
-import { Telegraf, Scenes, Context } from "telegraf";
+import { Telegraf, Scenes, Markup } from "telegraf";
 import { IDispose } from "core/idispose";
-import { BotCommands, BotReplies } from "./telegram.bot.keys";
+import { BotCommands, BotCommandsDescriptions, BotKeyboardButtons, BotReplies } from "./telegram.bot.keys";
 import { session } from "telegraf/session";
 import { BotContext } from "./infrastructure/bot.context";
 import { IBuilder } from "./infrastructure/stage-builder/ibuilder";
-import { ScenesKeys } from "@core/scenes.keys";
+import { message } from 'telegraf/filters'
 
 export class FinanceTrackerBot implements IDispose {
     private readonly bot: Telegraf<BotContext>;
@@ -26,14 +26,22 @@ export class FinanceTrackerBot implements IDispose {
     
 
     public registerCommands() {
+        const commands = Object.keys(BotCommands) as (keyof typeof BotCommandsDescriptions)[]
+        this.bot.telegram.setMyCommands(commands.map(name => ({
+            command: name,
+            description: BotCommandsDescriptions[name]
+        })))
 
-        this.bot.start((ctx: BotContext) => ctx.reply(BotReplies.greetings))
-        this.bot.command(BotCommands.authorization, (ctx) => ctx.scene.enter(ScenesKeys.Authorization))
-        /*const commands = Object.keys(BotCommands)
-        
+        this.bot.start((ctx: BotContext) => ctx.reply(BotReplies.greetings, Markup.removeKeyboard()))
         commands.forEach((command) => {
-            this.bot.command(command, (ctx: BotContext) => { ctx.scene.enter(ScenesKeys.Authorization) })
-        })*/
+            this.bot.command(command, (ctx: BotContext) => { ctx.scene.enter(command) })
+        })
+    }
+
+    public registerKeyboardButtons() {
+        this.bot.on(message('text'), (ctx) => {
+            ctx.scene.enter(ctx.message.text)
+        })
     }
 
     public launch() {
