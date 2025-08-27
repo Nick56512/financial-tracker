@@ -1,45 +1,69 @@
-import { Controller, Inject, Get, Post, Query, ParseUUIDPipe, UsePipes, ValidationPipe, Body, BadRequestException, UseGuards, Param } from "@nestjs/common";
+import { Controller, Inject, Get, Post, Query, ParseUUIDPipe, UsePipes, ValidationPipe, Body, BadRequestException, UseGuards, Param, Put, Delete } from "@nestjs/common";
 import { ControllersRoutes, EndpointsParameters, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
 import { IReportsService } from "./report.service";
-import { CreateReportModel, ReportDto } from "./report.models";
+import { CreateReportPayload, ReportDto, UpdateReportPayload } from "./report.models";
 import { JwtPayload } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.strategy";
 import { User } from "core/decorators/user.decorator";
 import { JwtAuthGuard } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.auth.guard";
 
 @Controller(ControllersRoutes.reports)
-@UsePipes(new ValidationPipe({ whitelist: true }))
 @UseGuards(JwtAuthGuard)
 export class ReportController {
     constructor(@Inject(INJECTION_KEYS.ReportsService) private readonly reportsService: IReportsService) {}
 
-    @Get()
-    public getAll(): Promise<ReportDto[]> {
-        return this.reportsService.getAll()
-    }
 
-    @Get(`${EndpointsRoutes.filter}`) 
+    @Get(EndpointsRoutes.filter) 
     public getByUserId(@Query(EndpointsParameters.userId) userId: string) {
         return this.reportsService.getByUserId(userId)
     }
 
-    @Get(`${EndpointsParameters.id}`) 
-    public getById(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string ): Promise<ReportDto | null> {
+    @Get() 
+    public getById(@Query(EndpointsParameters.id, new ParseUUIDPipe()) id: string ): Promise<ReportDto | null> {
         return this.reportsService.findById(id)
     }
 
     @Post()
-    public async create(@Body() createReportModel: CreateReportModel,
+    @UsePipes(new ValidationPipe({ whitelist: true }))
+    public async createNewReport(@Body() createReportModel: CreateReportPayload,
                         @User() user: JwtPayload) {
         if(!user.userId) {
             throw new BadRequestException()
         }
         const reportDto: ReportDto = {
-            name: createReportModel.name,
-            plannedBudget: createReportModel.plannedBudget,
-            userId: user.userId,
-            currentBudget: createReportModel.currentBudget
+            ...createReportModel,
+            userId: user.userId
         }
-        const newId = await this.reportsService.createOrUpdate(reportDto)
-        return { id: newId }
+        const id = await this.reportsService.createOrUpdate(reportDto)
+        return {
+            id,
+            userId: user.userId,
+            ...createReportModel
+        }
+    }
+
+    @Put()
+    @UsePipes(new ValidationPipe({ whitelist: true }))
+    public async updateReport(@Body() report: UpdateReportPayload,
+                        @User() user: JwtPayload) 
+    {
+        if(!user.userId) {
+            throw new BadRequestException()
+        }
+        await this.reportsService.createOrUpdate({
+            ...report,
+            userId: user.userId
+        })
+        return {
+            userId: user.userId,
+            ...report
+        }
+    }
+
+    @Delete()
+    public async deleteReport(@Query(EndpointsParameters.reportId) reportId: string) {
+        const success = (await this.reportsService.removeById(reportId))
+        return {
+            success 
+        }
     }
 }

@@ -1,9 +1,9 @@
 import { Entity, Column, OneToMany } from 'typeorm'
-import { Payments } from './payments'
 import { Report } from './report'
 import { PrimaryKeyEntity } from './primary.key.entity'
+import { DbTablesNames } from 'types'
 
-@Entity({ name: 'users' })
+@Entity({ name: DbTablesNames.users })
 export class User extends PrimaryKeyEntity {
         
     @Column({ type: 'varchar', length: 255, unique: true })

@@ -1,23 +1,41 @@
 import { Global, Module, Provider } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { Category, DbConnectOptions, DbContext, User, Payments, Report, IRepositoryCreator, EntityRepositoryCreator, PrimaryKeyEntity } from "data-provider";
+import { Category, DbConnectOptions, DbContext, User, Payments, Report, IRepositoryCreator, PrimaryKeyEntity, BaseRepositoryCreator, EntityRepository, IModelRepository, QueryBuilderRepository } from "data-provider";
 import { ConfigurationParameters, INJECTION_KEYS } from "core/@types/enum.keys";
 import { DatabaseShutdown } from "./database.shutdown";
 import { DatabaseCreateConnection } from "./database.init.connection";
 
-function createRepositoryProvider<Entity extends PrimaryKeyEntity>(
+function createRepositoryProvider<
+    Entity extends PrimaryKeyEntity,
+>(
     token: string, 
-    entity: new () => Entity): Provider
+    entity: new () => Entity,
+    ): Provider
 {
     return {
         provide: token,
         useFactory: (dbContext: DbContext) => {
-            const creator: IRepositoryCreator<Entity> = new EntityRepositoryCreator(dbContext)
+            const creator: IRepositoryCreator<Entity> = new BaseRepositoryCreator<Entity, EntityRepository<Entity>>(dbContext, EntityRepository<Entity>)
             return creator.createRepository(entity)
         },
         inject: [INJECTION_KEYS.DbContext]
     }
 }
+
+function createQueryBuilderRepositoryProvider<Entity extends PrimaryKeyEntity>(
+    token: string, 
+    entity: new () => Entity,
+): Provider {
+     return {
+        provide: token,
+        useFactory: (dbContext: DbContext) => {
+            const creator: IRepositoryCreator<Entity> = new BaseRepositoryCreator<Entity, QueryBuilderRepository<Entity>>(dbContext, QueryBuilderRepository<Entity>)
+            return creator.createRepository(entity)
+        },
+        inject: [INJECTION_KEYS.DbContext]
+    }
+}
+
 
 @Global()
 @Module({
@@ -46,7 +64,7 @@ function createRepositoryProvider<Entity extends PrimaryKeyEntity>(
         createRepositoryProvider<Category>(INJECTION_KEYS.CategoryRepository, Category),
         createRepositoryProvider<Report>(INJECTION_KEYS.ReportsRepository, Report),
         createRepositoryProvider<User>(INJECTION_KEYS.UsersRepository, User),
-        createRepositoryProvider<Payments>(INJECTION_KEYS.PaymentsRepository, Payments),
+        createQueryBuilderRepositoryProvider<Payments>(INJECTION_KEYS.PaymentsRepository, Payments),
         DatabaseShutdown,
         DatabaseCreateConnection
     ],

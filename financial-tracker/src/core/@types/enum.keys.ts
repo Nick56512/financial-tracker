@@ -48,14 +48,17 @@ export const enum EndpointsParameters {
     id = 'id',
     reportId = 'reportId',
     userId = 'userId',
-    categoryId = 'categoryId'
+    categoryId = 'categoryId',
+    paymentId = 'paymentId',
+    groupBy = 'groupBy'
 }
 
 export const enum EndpointsRoutes {
     verify = 'verify',
     sendCode = 'sendCode',
     setAccountInfo = 'setAccountInfo',
-    filter = 'filter'
+    filter = 'filter',
+    summary = 'summary'
 }
 
 //TODO: write routes and controllers

@@ -13,7 +13,7 @@ export class CategoryController {
     constructor(@inject(IoCInjectionKeys.CategoryService) private readonly categoryService: IAuthHttpService & IHttpService<Category>,
                 @inject(IoCInjectionKeys.SessionProvider) private readonly sessionProvider: ISessionProvider<UserSession>) { }
     
-    public getCategoryByReportId(): Scenes.WizardScene<BotContext> {
+    public createNewCategory(): Scenes.WizardScene<BotContext> {
         const scene = new Scenes.WizardScene<BotContext>(BotKeyboardButtons.addCategory, 
             async (ctx) => {
                 ctx.reply(BotReplies.enterCategoryName)
@@ -35,6 +35,7 @@ export class CategoryController {
                     return ctx.scene.leave()
                 }
                 const reportId = session.currentReportId
+                await this.categoryService.setAuthenticationToken(session.access_token)
                 const result: Category = await this.categoryService.create({
                     name: ctx.text,
                     reportId
@@ -42,13 +43,15 @@ export class CategoryController {
                 if(result.id) {
                     ctx.reply(BotReplies.successAddedCategory, Markup.keyboard([
                         BotKeyboardButtons.addCategory,
-                        BotKeyboardButtons.watchReports
+                        BotKeyboardButtons.watchReports,
+                        BotKeyboardButtons.summaryByCategories
                     ]).resize().oneTime())
                 }
                 else {
                     ctx.reply(BotReplies.unsuccessAddedCategory, Markup.keyboard([
                         BotKeyboardButtons.addCategory,
-                        BotKeyboardButtons.watchReports
+                        BotKeyboardButtons.watchReports,
+                        BotKeyboardButtons.summaryByCategories
                     ]).resize().oneTime())
                 }
                 return ctx.scene.leave()

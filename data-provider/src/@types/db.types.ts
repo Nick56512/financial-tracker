@@ -13,3 +13,11 @@ export type DbConnectOptions = {
     logging: boolean,
     entities: MixedList<string | Function | EntitySchema<any>>
 }
+
+export const enum DbTablesNames {
+    categories = 'categories',
+    payments = 'payments',
+    reports = 'reports',
+    users = 'users'
+}
+export type SumByFieldResult<Entity, K extends keyof Entity, T extends keyof Entity> = { [P in K]: Entity[P] } & { sum: number } & Pick<Entity, T>

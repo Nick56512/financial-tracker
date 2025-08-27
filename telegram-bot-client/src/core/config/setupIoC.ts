@@ -23,6 +23,7 @@ import { IAuthorizationProvider } from "@domains/infrastructure/http-service/aut
 import { JwtAuthorizationProvider } from "@domains/infrastructure/http-service/auth-provider/jwt.auth.provider";
 import { ReportsController } from "@domains/reports/reports.controller";
 import { Category } from "@domains/category/category.model";
+import { CategoryController } from "@domains/category/category.controller";
 
 export function setupIoCContainer(): Container {
     const container = new Container()
@@ -56,7 +57,8 @@ function setupBot(container: Container) {
 
 function setupControllers(container: Container) {
     container.bind<UserAccountController>(IoCInjectionKeys.UserAccountController).to(UserAccountController)
-    container.bind<ReportsController>(IoCInjectionKeys.ReportsController).to(ReportsController)
+    container.bind<ReportsController>(IoCInjectionKeys.ReportsController).to(ReportsController),
+    container.bind<CategoryController>(IoCInjectionKeys.CategoryController).to(CategoryController)
 }
 
 function setupServices(container: Container) {

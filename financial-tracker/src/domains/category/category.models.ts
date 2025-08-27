@@ -1,12 +1,13 @@
-import { IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator"
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator"
 
 export class CategoryDto {
     name: string
     description?: string
     allocatedBudget?: number
+    plannedBudget?: number
 }
 
-export class CreateNewCategoryModel {
+export class CreateCategoryPayload {
     @IsString()
     @IsNotEmpty()
     name: string
@@ -18,4 +19,14 @@ export class CreateNewCategoryModel {
     @IsOptional()
     @IsNumber()
     allocatedBudget?: number
+
+    @IsOptional()
+    @IsNumber()
+    plannedBudget?: number
+}
+
+export class UpdateCategoryPayload extends CreateCategoryPayload{
+    @IsUUID()
+    @IsNotEmpty()
+    id: string
 }

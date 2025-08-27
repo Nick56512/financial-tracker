@@ -7,4 +7,5 @@ export interface IModelRepository<Model extends PrimaryKeyEntity> {
     getAll(): Promise<Model[]>
     findOneBy<K extends keyof Model>(field: K, value: Model[K]): Promise<Model | null>;
     findManyBy<K extends keyof Model>(field: K, value: Model[K]): Promise<Model[]>
+    filterByMany(filterParams: Partial<Model>): Promise<Model[]>
 }

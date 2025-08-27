@@ -3,8 +3,9 @@ import { PrimaryKeyEntity } from "./primary.key.entity";
 import { User } from "./user";
 import { Category } from "./category";
 import { Payments } from "./payments";
+import { DbTablesNames } from "types";
 
-@Entity({ name: 'reports' })
+@Entity({ name: DbTablesNames.reports })
 export class Report extends PrimaryKeyEntity {
     
     @Column({ type: 'varchar', length: 255 })

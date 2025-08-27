@@ -1,5 +1,5 @@
 import { FindOptionsWhere, Repository } from "typeorm";
-import { IModelRepository } from "./imodel.repository.js";
+import { IModelRepository } from "./infrastructure/imodel.repository.js";
 import { PrimaryKeyEntity } from "db/entities/primary.key.entity.js";
 
 export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModelRepository<Entity> {
@@ -39,5 +39,12 @@ export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModel
         return this.repository.findBy({
             [field]: value
         } as FindOptionsWhere<Entity>)
+    }
+
+    async filterByMany(filterParams: Partial<Entity>): Promise<Entity[]> {
+        if(Object.keys(filterParams).length === 0) {
+            return []
+        }
+        return this.repository.findBy(filterParams as FindOptionsWhere<Entity>)
     }
 }

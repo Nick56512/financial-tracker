@@ -2,8 +2,9 @@ import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { PrimaryKeyEntity } from "./primary.key.entity";
 import { Report } from "./report";
 import { Category } from "./category";
+import { DbTablesNames } from "types";
 
-@Entity({ name: 'payments' })
+@Entity({ name: DbTablesNames.payments })
 export class Payments extends PrimaryKeyEntity {
     
     @Column({ type: 'integer'})

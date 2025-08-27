@@ -1,8 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ReportController } from "./report.controller";
 import { INJECTION_KEYS } from "core/@types/enum.keys";
-import { IModelRepository } from "data-provider";
-import { Report } from 'data-provider'
+import { Category, IModelRepository, Payments, Report } from "data-provider";
 import { IMapper, Mapper } from "infrastructure";
 import { ReportDto } from "./report.models";
 import { ReportService } from "./report.service";
@@ -12,11 +11,21 @@ import { ReportService } from "./report.service";
     providers: [
         {
             provide: INJECTION_KEYS.ReportsService,
-            useFactory: (reportsRepository: IModelRepository<Report>) => {
+            useFactory: (
+                reportsRepository: IModelRepository<Report>,
+                categoryRepository: IModelRepository<Category>,
+                paymentsRepository: IModelRepository<Payments>
+
+
+            ) => {
                 const mapper: IMapper<Report, ReportDto> = new Mapper(Report, ReportDto)
-                return new ReportService(reportsRepository, mapper)
+                return new ReportService(paymentsRepository, categoryRepository, reportsRepository,  mapper, )
             },
-            inject: [INJECTION_KEYS.ReportsRepository]
+            inject: [
+                INJECTION_KEYS.ReportsRepository,
+                INJECTION_KEYS.CategoryRepository,
+                INJECTION_KEYS.PaymentsRepository
+            ]
         }
     ]
 })

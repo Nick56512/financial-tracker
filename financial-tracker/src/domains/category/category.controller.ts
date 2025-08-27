@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, UseGuards, Query } from "@nestjs/common";
+import { Controller, Get, Post, Inject, Param, ParseUUIDPipe, Body, UsePipes, ValidationPipe, Delete, UseGuards, Query, Put } from "@nestjs/common";
 import { ControllersRoutes, EndpointsParameters, EndpointsRoutes, INJECTION_KEYS } from "core/@types/enum.keys";
 import { ICategoryService } from "./category.service";
-import { CategoryDto, CreateNewCategoryModel } from "./category.models";
+import { CategoryDto, CreateCategoryPayload, UpdateCategoryPayload } from "./category.models";
 import { JwtAuthGuard } from "core/global-modules/jwt-auth-module/guard-strategy/jwt.auth.guard";
 
 @Controller(ControllersRoutes.categories)
@@ -10,34 +10,44 @@ export class CategoryController {
 
     constructor(@Inject(INJECTION_KEYS.CategoryService) private readonly categoryService: ICategoryService) {}
 
-    @Get()
-    public async getAll(): Promise<CategoryDto[]> {
-        return this.categoryService.getAll()
-    }
 
-    // TODO? : check if category have in user
-    @Get(`${EndpointsRoutes.filter}`)
+    @Get(EndpointsRoutes.filter)
     public async getByReportId(@Query(EndpointsParameters.reportId, new ParseUUIDPipe()) reportId: string) {
         return this.categoryService.getByReportId(reportId)
     }
 
-    @Get(`:${EndpointsParameters.id}`)
-    public async getById(@Param(EndpointsParameters.id, new ParseUUIDPipe())id: string): Promise<CategoryDto | null> {
+    @Get()
+    public async getById(@Query(EndpointsParameters.id, new ParseUUIDPipe())id: string): Promise<CategoryDto | null> {
         return this.categoryService.findById(id)
     }
 
     @Post()
     @UsePipes(new ValidationPipe({ whitelist: true }))
-    public async createCategory(@Body() newCategory: CreateNewCategoryModel) {
-        const categoryId = await this.categoryService.createOrUpdate({
-            allocatedBudget: newCategory.allocatedBudget,
-            name: newCategory.name
+    public async createCategory(@Body() newCategory: CreateCategoryPayload) {
+        const id = await this.categoryService.createOrUpdate({
+            ...newCategory
         }) 
-        return { id: categoryId, name: newCategory.name }
+        return {
+            id,
+            ...newCategory
+        }
     }
 
+    @Put()
+    @UsePipes(new ValidationPipe({ whitelist: true }))
+    public async updateCategoty(@Body() category: UpdateCategoryPayload) {
+        await this.categoryService.createOrUpdate({
+            ...category
+        })
+        return category
+    }
+
+
     @Delete()
-    public async removeCategory(@Param(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
-        return this.categoryService.removeById(id)
+    public async removeCategory(@Query(EndpointsParameters.id, new ParseUUIDPipe()) id: string) {
+        const success = await this.categoryService.removeById(id)
+        return {
+            success
+        }
     }
 }

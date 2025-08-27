@@ -1,6 +1,13 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 
-export class CreateReportModel {
+export class ReportDto {
+    name: string;
+    plannedBudget?: number;
+    userId: string;
+    currentBudget?: number;
+}
+
+export class CreateReportPayload {
     @IsString()
     @IsNotEmpty()
     name: string;
@@ -13,9 +20,8 @@ export class CreateReportModel {
     plannedBudget?: number;
 }
 
-export class ReportDto {
-    name: string;
-    plannedBudget?: number;
-    userId: string;
-    currentBudget?: number;
+export class UpdateReportPayload extends CreateReportPayload{
+    @IsNotEmpty()
+    @IsUUID()
+    id: string
 }
