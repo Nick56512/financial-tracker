@@ -24,13 +24,8 @@ export class AxiosHttpService<T> implements IAuthHttpService, IHttpService<T>, I
         this.http.defaults.headers.common["Authorization"] = this.authProvider.getAuthorizationHeader(token)
     }
    
-    async get(): Promise<T[]> {
-        const response = await this.http.get("/")
-        return response.data
-    }
     async getById(id: string): Promise<T | null> {
-      
-            const response = await this.http.get(`${FinanceApiEndpoints.getById}`, {
+            const response = await this.http.get(`/`, {
                 params: {
                     id
                 }

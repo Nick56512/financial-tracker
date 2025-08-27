@@ -15,4 +15,5 @@ export type PaymentsSummaryByCategories = {
     categories: SummaryCategory[],
     total: number,
     reportId: string
+    reportCreatedAt: Date
 }

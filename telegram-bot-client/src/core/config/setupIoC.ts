@@ -11,10 +11,8 @@ import { IKeyBuilder, SessionKeyBuilder } from "@domains/infrastructure/session-
 import { SessionProvider } from "@domains/infrastructure/session-provider/session.provider";
 import { IVerificationService } from "@domains/infrastructure/iverification.service";
 import { UserAccountService } from "@domains/user-account/user.account.service";
-import { IBuilder } from "@bot/infrastructure/stage-builder/ibuilder";
 import { Scenes } from "telegraf";
-import { BotContext } from "@bot/infrastructure/bot.context";
-import { BotStageBuilder } from "@bot/infrastructure/stage-builder/stage.builder";
+import { BotContext } from "@bot/telegram.bot.context";
 import { AxiosHttpService } from "@domains/infrastructure/http-service/axios.http.service";
 import { IHttpService } from "@domains/infrastructure/http-service/ihttp.service";
 import { IAuthHttpService } from "@domains/infrastructure/http-service/iauth.http.service";
@@ -24,6 +22,11 @@ import { JwtAuthorizationProvider } from "@domains/infrastructure/http-service/a
 import { ReportsController } from "@domains/reports/reports.controller";
 import { Category } from "@domains/category/category.model";
 import { CategoryController } from "@domains/category/category.controller";
+import { PaymentsController } from "@domains/payments/payments.controller";
+import { IGetSummaryByCategories, PaymentsService } from "@domains/payments/payments.service";
+import { Payment } from "@domains/payments/payments.models";
+import { IBuilder } from "stage-builder/ibuilder";
+import { BotStageBuilder } from "../../stage-builder/stage.builder";
 
 export function setupIoCContainer(): Container {
     const container = new Container()
@@ -59,6 +62,7 @@ function setupControllers(container: Container) {
     container.bind<UserAccountController>(IoCInjectionKeys.UserAccountController).to(UserAccountController)
     container.bind<ReportsController>(IoCInjectionKeys.ReportsController).to(ReportsController),
     container.bind<CategoryController>(IoCInjectionKeys.CategoryController).to(CategoryController)
+    container.bind<PaymentsController>(IoCInjectionKeys.PaymentsController).to(PaymentsController)
 }
 
 function setupServices(container: Container) {
@@ -71,5 +75,9 @@ function setupServices(container: Container) {
     container.bind<IAuthHttpService & IHttpService<Category>>(IoCInjectionKeys.CategoryService).toDynamicValue(() => {
         const provider = container.get<IAuthorizationProvider>(IoCInjectionKeys.AuthorizationProvider)
         return new AxiosHttpService(FinanceApiBaseUrls.baseCategoriesUrl, provider)
+    })
+    container.bind<AxiosHttpService<Payment> & IGetSummaryByCategories>(IoCInjectionKeys.PaymentsService).toDynamicValue(() => {
+        const provider = container.get<IAuthorizationProvider>(IoCInjectionKeys.AuthorizationProvider)
+        return new PaymentsService(FinanceApiBaseUrls.basePaymentsUrl, provider)
     })
 }

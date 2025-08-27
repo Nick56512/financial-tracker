@@ -1,4 +1,4 @@
-import { BotContext } from "@bot/infrastructure/bot.context"
+import { BotContext } from "@bot/telegram.bot.context"
 import { BotCommands, BotKeyboardButtons, BotReplies } from "@bot/telegram.bot.keys"
 import { IoCInjectionKeys } from "@core/config/keys/injection.keys"
 import { ISessionProvider, UserSession } from "@domains/infrastructure/session-provider/isession.provider"

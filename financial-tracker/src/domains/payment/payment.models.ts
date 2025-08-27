@@ -51,5 +51,6 @@ export class SummaryCategory {
 export type PaymentsSummaryByCategories = {
     categories: SummaryCategory[],
     total: number,
-    reportId: string
+    reportId: string,
+    reportCreatedAt: Date
 }

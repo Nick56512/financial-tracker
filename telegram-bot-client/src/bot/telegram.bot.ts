@@ -2,8 +2,8 @@ import { Telegraf, Scenes, Markup } from "telegraf";
 import { IDispose } from "core/idispose";
 import { BotCommands, BotCommandsDescriptions, BotKeyboardButtons, BotReplies } from "./telegram.bot.keys";
 import { session } from "telegraf/session";
-import { BotContext } from "./infrastructure/bot.context";
-import { IBuilder } from "./infrastructure/stage-builder/ibuilder";
+import { BotContext } from "./telegram.bot.context";
+import { IBuilder } from "../stage-builder/ibuilder";
 import { message } from 'telegraf/filters'
 
 export class FinanceTrackerBot implements IDispose {

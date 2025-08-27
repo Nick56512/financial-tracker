@@ -5,7 +5,7 @@ import { inject, injectable } from "inversify";
 import { Category } from "./category.model";
 import { ISessionProvider, UserSession } from "@domains/infrastructure/session-provider/isession.provider";
 import { Markup, Scenes } from "telegraf";
-import { BotContext } from "@bot/infrastructure/bot.context";
+import { BotContext } from "@bot/telegram.bot.context";
 import { BotKeyboardButtons, BotReplies } from "@bot/telegram.bot.keys";
 
 @injectable()

@@ -4,7 +4,7 @@ import { ISessionProvider, UserSession } from "@domains/infrastructure/session-p
 import { inject, injectable } from "inversify";
 import { Report } from "./reports.models";
 import { Markup, Scenes } from "telegraf";
-import { BotContext } from "@bot/infrastructure/bot.context";
+import { BotContext } from "@bot/telegram.bot.context";
 import { BotKeyboardButtons, BotReplies } from "@bot/telegram.bot.keys";
 import { IAuthHttpService } from "@domains/infrastructure/http-service/iauth.http.service";
 import { IFilterHttpService } from "@domains/infrastructure/ifilter.service";
@@ -57,7 +57,8 @@ export class ReportsController {
             ctx.editMessageText(BotReplies.successSelectReport)
             ctx.reply(BotReplies.workWithReport, Markup.keyboard([
                 BotKeyboardButtons.addCategory,
-                BotKeyboardButtons.watchReports
+                BotKeyboardButtons.watchReports,
+                BotKeyboardButtons.summaryByCategories
             ]).resize().oneTime())
             return ctx.scene.leave()
         })

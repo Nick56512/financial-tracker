@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { PrimaryKeyEntity } from "./primary.key.entity";
 import { User } from "./user";
 import { Category } from "./category";
@@ -7,7 +7,10 @@ import { DbTablesNames } from "types";
 
 @Entity({ name: DbTablesNames.reports })
 export class Report extends PrimaryKeyEntity {
-    
+   
+    @CreateDateColumn({ type: 'date' })
+    createdAt: Date
+
     @Column({ type: 'varchar', length: 255 })
     name: string;
 

@@ -1,6 +1,8 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class ReportDto {
+    id?: string
+    createdAt?: Date
     name: string;
     plannedBudget?: number;
     userId: string;
