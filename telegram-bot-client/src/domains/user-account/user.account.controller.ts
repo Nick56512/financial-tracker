@@ -2,8 +2,10 @@ import { BotContext } from '@bot/telegram.bot.context';
 import {
    BotCommands,
    BotKeyboardButtons,
+   BotMainMenu,
    BotReplies,
-} from '@bot/telegram.bot.keys';
+   ReenterEmailMenu,
+} from '@bot/telegram.bot.types';
 import { IoCInjectionKeys } from '@core/config/keys/injection.keys';
 import {
    ISessionProvider,
@@ -34,18 +36,7 @@ export class UserAccountController {
                ctx.reply(BotReplies.enterEmail);
                return ctx.wizard.next();
             }
-            ctx.reply(
-               BotReplies.sessionIsExists,
-               Markup.keyboard([
-                  [
-                     BotKeyboardButtons.watchReports,
-                     BotKeyboardButtons.createReport,
-                  ],
-                  [BotKeyboardButtons.help],
-               ])
-                  .resize()
-                  .oneTime()
-            );
+            ctx.reply(BotReplies.sessionIsExists, BotMainMenu);
             return ctx.scene.leave();
          },
          async (ctx) => {
@@ -68,9 +59,7 @@ export class UserAccountController {
             if (result.isCodeExists) {
                ctx.reply(
                   BotReplies.codeIsAlredySended,
-                  Markup.keyboard([BotKeyboardButtons.reenterEmail])
-                     .resize()
-                     .oneTime()
+                  ReenterEmailMenu
                );
                return ctx.wizard.next();
             }
@@ -80,12 +69,10 @@ export class UserAccountController {
             } else {
                ctx.reply(
                   BotReplies.sendedVerificationCode,
-                  Markup.keyboard([BotKeyboardButtons.reenterEmail])
-                     .resize()
-                     .oneTime()
+                  ReenterEmailMenu
                );
             }
-            ctx.session.user = {
+            ctx.sceneStorage.user = {
                email,
             };
             return ctx.wizard.next();
@@ -109,7 +96,7 @@ export class UserAccountController {
                ctx.reply(BotReplies.notValidateCode);
                return;
             }
-            const email = ctx.session.user.email;
+            const email = ctx.sceneStorage.user.email;
             const result = await this.verificationService.verifyCode(
                email,
                number
@@ -119,23 +106,12 @@ export class UserAccountController {
                return;
             }
             const session: UserSession = {
-               email: ctx.session.user.email,
+               email: ctx.sceneStorage.user.email,
                access_token: result.access_token,
                userId: result.userId,
             };
             await this.sessionProvider.create(ctx.chat.id, session);
-            ctx.reply(
-               BotReplies.verificationCompleted,
-               Markup.keyboard([
-                  [
-                     BotKeyboardButtons.watchReports,
-                     BotKeyboardButtons.createReport,
-                  ],
-                  [BotKeyboardButtons.help],
-               ])
-                  .resize()
-                  .oneTime()
-            );
+            ctx.reply(BotReplies.verificationCompleted, BotMainMenu);
             return ctx.scene.leave();
          }
       );

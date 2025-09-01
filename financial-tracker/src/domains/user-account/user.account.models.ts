@@ -1,42 +1,42 @@
 import {
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  Matches,
-  Max,
-  Min,
-  MinLength,
+   IsEmail,
+   IsNotEmpty,
+   IsNumber,
+   IsString,
+   Matches,
+   Max,
+   Min,
+   MinLength,
 } from 'class-validator';
 
 export class VerificationPayload {
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
+   @IsEmail()
+   @IsNotEmpty()
+   email: string;
 
-  @IsNumber()
-  verificationCode: number;
+   @IsNumber()
+   verificationCode: number;
 }
 
 export class LoginPayload {
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
+   @IsEmail()
+   @IsNotEmpty()
+   email: string;
 }
 
 export class SetAccountInfoPayload {
-  @IsNumber()
-  @Min(8)
-  age: number;
+   @IsNumber()
+   @Min(8)
+   age: number;
 
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+   @IsString()
+   @IsNotEmpty()
+   name: string;
 }
 
 export class UserDto {
-  id?: string;
-  email: string;
-  name?: string;
-  age?: number;
+   id?: string;
+   email: string;
+   name?: string;
+   age?: number;
 }

@@ -10,33 +10,33 @@ import { UserDto } from 'domains/user-account/user.account.models';
 
 @Global()
 @Module({
-  imports: [
-    PassportModule,
-    JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.getOrThrow<string>(
-          ConfigurationParameters.JWT_SECRET,
-        ),
-        signOptions: {
-          expiresIn: configService.getOrThrow<string>(
-            ConfigurationParameters.JWT_EXPIRES,
-          ),
-        },
+   imports: [
+      PassportModule,
+      JwtModule.registerAsync({
+         useFactory: (configService: ConfigService) => ({
+            secret: configService.getOrThrow<string>(
+               ConfigurationParameters.JWT_SECRET,
+            ),
+            signOptions: {
+               expiresIn: configService.getOrThrow<string>(
+                  ConfigurationParameters.JWT_EXPIRES,
+               ),
+            },
+         }),
+         inject: [ConfigService],
       }),
-      inject: [ConfigService],
-    }),
-  ],
-  providers: [
-    {
-      provide: INJECTION_KEYS.UserCrudService,
-      useFactory: (userRepository: IModelRepository<User>) => {
-        const mapper: IMapper<User, UserDto> = new Mapper(User, UserDto);
-        return new AbstractService<User, UserDto>(userRepository, mapper);
+   ],
+   providers: [
+      {
+         provide: INJECTION_KEYS.UserCrudService,
+         useFactory: (userRepository: IModelRepository<User>) => {
+            const mapper: IMapper<User, UserDto> = new Mapper(User, UserDto);
+            return new AbstractService<User, UserDto>(userRepository, mapper);
+         },
+         inject: [INJECTION_KEYS.UsersRepository],
       },
-      inject: [INJECTION_KEYS.UsersRepository],
-    },
-    JwtGuardStrategy,
-  ],
-  exports: [JwtModule],
+      JwtGuardStrategy,
+   ],
+   exports: [JwtModule],
 })
 export class JwtAuthModule {}

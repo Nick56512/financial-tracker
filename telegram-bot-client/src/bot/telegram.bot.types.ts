@@ -1,3 +1,6 @@
+import { Markup } from 'telegraf';
+import { ReplyKeyboardMarkup } from 'telegraf/types';
+
 export enum BotCommands {
    login = 'login',
    logout = 'logout',
@@ -42,16 +45,41 @@ export const enum BotReplies {
    unsuccessAddedCategory = '❌ Не вдалося додати нову категорію',
    successAddedCategory = '✅ Красавчик! Нову категорію успішно додано у звіт',
    chooseCategory = '😉 Обери категорію.',
+   successAddedPayment = '✅ Вніс витрату в поточний звіт',
+   chooseCategoryForRemove = '📝 Обери категорію для видалення',
+   successRemovedCategory = '✅ Категорію успішно видалено',
+   unsuccessRemovedCategory = '❌ Не вдалося видалити обрану категорію',
 }
 
 export enum BotKeyboardButtons {
    watchReports = '🗂 Обрати звіт',
    createReport = '📊 Створити звіт',
    help = '❓ Допомога',
+   removeReport = '❌ Видалити звіт',
+
    reenterEmail = '✏️ Ввести email знову',
 
    addCategory = '💰 Додати категорію витрат',
    summaryByCategories = '📊 Витрати по категоріям',
+   removeCategory = '❌ Видалити категорію',
 }
 
 export const addPaymentScene = 'addPayment';
+
+export const BotMainMenu: Markup.Markup<ReplyKeyboardMarkup> = Markup.keyboard([
+   [BotKeyboardButtons.watchReports, BotKeyboardButtons.createReport],
+   [BotKeyboardButtons.removeReport, BotKeyboardButtons.help],
+])
+   .resize()
+   .oneTime();
+
+export const ReenterEmailMenu: Markup.Markup<ReplyKeyboardMarkup> =
+   Markup.keyboard([BotKeyboardButtons.reenterEmail]).resize().oneTime();
+
+export const InsideReportMenu: Markup.Markup<ReplyKeyboardMarkup> =
+   Markup.keyboard([
+      [BotKeyboardButtons.addCategory, BotKeyboardButtons.summaryByCategories],
+      [BotKeyboardButtons.removeCategory, BotKeyboardButtons.watchReports],
+   ])
+      .resize()
+      .oneTime();

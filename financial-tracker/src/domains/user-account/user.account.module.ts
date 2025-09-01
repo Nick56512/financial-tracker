@@ -11,38 +11,38 @@ import { ConfigService } from '@nestjs/config';
 import { EmailProvider } from './email-provider/email.provider';
 
 @Module({
-  imports: [],
-  controllers: [UserAccountController],
-  providers: [
-    {
-      provide: INJECTION_KEYS.UserAccountService,
-      useFactory: (repository: IModelRepository<User>) => {
-        const mapper: IMapper<User, UserDto> = new Mapper<User, UserDto>(
-          User,
-          UserDto,
-        );
-        return new UserAccountService(repository, mapper);
+   imports: [],
+   controllers: [UserAccountController],
+   providers: [
+      {
+         provide: INJECTION_KEYS.UserAccountService,
+         useFactory: (repository: IModelRepository<User>) => {
+            const mapper: IMapper<User, UserDto> = new Mapper<User, UserDto>(
+               User,
+               UserDto,
+            );
+            return new UserAccountService(repository, mapper);
+         },
+         inject: [INJECTION_KEYS.UsersRepository],
       },
-      inject: [INJECTION_KEYS.UsersRepository],
-    },
-    {
-      provide: INJECTION_KEYS.VerificationManager,
-      useClass: VerificationManager,
-    },
-    {
-      provide: INJECTION_KEYS.EmailProvider,
-      useFactory: (configService: ConfigService) => {
-        return new EmailProvider({
-          emailApiToken: configService.getOrThrow<string>(
-            ConfigurationParameters.EMAIL_API_KEY,
-          ),
-          emailFrom: configService.getOrThrow<string>(
-            ConfigurationParameters.EMAIL_FROM,
-          ),
-        });
+      {
+         provide: INJECTION_KEYS.VerificationManager,
+         useClass: VerificationManager,
       },
-      inject: [ConfigService],
-    },
-  ],
+      {
+         provide: INJECTION_KEYS.EmailProvider,
+         useFactory: (configService: ConfigService) => {
+            return new EmailProvider({
+               emailApiToken: configService.getOrThrow<string>(
+                  ConfigurationParameters.EMAIL_API_KEY,
+               ),
+               emailFrom: configService.getOrThrow<string>(
+                  ConfigurationParameters.EMAIL_FROM,
+               ),
+            });
+         },
+         inject: [ConfigService],
+      },
+   ],
 })
 export class UserAccountModule {}

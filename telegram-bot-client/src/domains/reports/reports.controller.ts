@@ -8,7 +8,7 @@ import { inject, injectable } from 'inversify';
 import { Report } from './reports.models';
 import { Markup, Scenes } from 'telegraf';
 import { BotContext } from '@bot/telegram.bot.context';
-import { BotKeyboardButtons, BotReplies } from '@bot/telegram.bot.keys';
+import { BotKeyboardButtons, BotReplies, InsideReportMenu } from '@bot/telegram.bot.types';
 import { IAuthHttpService } from '@domains/infrastructure/http-service/iauth.http.service';
 import { IFilterHttpService } from '@domains/infrastructure/ifilter.service';
 
@@ -74,13 +74,7 @@ export class ReportsController {
          ctx.editMessageText(BotReplies.successSelectReport);
          ctx.reply(
             BotReplies.workWithReport,
-            Markup.keyboard([
-               BotKeyboardButtons.addCategory,
-               BotKeyboardButtons.watchReports,
-               BotKeyboardButtons.summaryByCategories,
-            ])
-               .resize()
-               .oneTime()
+            InsideReportMenu
          );
          return ctx.scene.leave();
       });
@@ -107,7 +101,7 @@ export class ReportsController {
             if (!ctx.text) {
                return;
             }
-            ctx.session.report = {
+            ctx.sceneStorage.report = {
                reportName: ctx.text,
                plannedBudget: 0,
                currentBudget: 0,
@@ -125,7 +119,7 @@ export class ReportsController {
                ctx.reply(BotReplies.notValidateCode);
                return;
             }
-            ctx.session.report.plannedBudget = number;
+            ctx.sceneStorage.report.plannedBudget = number;
             ctx.reply(BotReplies.enterCurrentBudget);
             return ctx.wizard.next();
          },
@@ -142,7 +136,7 @@ export class ReportsController {
                ctx.reply(BotReplies.notValidateCode);
                return;
             }
-            ctx.session.report.currentBudget = number;
+            ctx.sceneStorage.report.currentBudget = number;
             const session = await this.sessionProvider.getByChatId(ctx.chat.id);
             if (!session) {
                ctx.reply(BotReplies.notHaveActiveSession);
@@ -150,9 +144,9 @@ export class ReportsController {
             }
             const result = await this.reportsService.create({
                userId: session.userId,
-               plannedBudget: ctx.session.report.plannedBudget,
-               currentBudget: ctx.session.report.currentBudget,
-               name: ctx.session.report.reportName,
+               plannedBudget: ctx.sceneStorage.report.plannedBudget,
+               currentBudget: ctx.sceneStorage.report.currentBudget,
+               name: ctx.sceneStorage.report.reportName,
             });
             if (!result.id) {
                ctx.reply(BotReplies.unsuccessAddedReport);

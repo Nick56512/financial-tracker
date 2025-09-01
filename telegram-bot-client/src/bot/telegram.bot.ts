@@ -6,7 +6,7 @@ import {
    BotCommandsDescriptions,
    BotKeyboardButtons,
    BotReplies,
-} from './telegram.bot.keys';
+} from './telegram.bot.types';
 import { session } from 'telegraf/session';
 import { BotContext } from './telegram.bot.context';
 import { IBuilder } from '../stage-builder/ibuilder';

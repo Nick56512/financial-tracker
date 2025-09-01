@@ -1,10 +1,14 @@
 import { FinanceApiEndpoints } from '@core/api.routes';
 import { IAuthorizationProvider } from './auth-provider/iauth.provider';
 import { IHttpService } from './ihttp.service';
-import axios, { Axios, AxiosResponse } from 'axios';
+import axios, { Axios, AxiosRequestTransformer, AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
 import { IAuthHttpService } from './iauth.http.service';
 import { IFilterHttpService } from '../ifilter.service';
+
+export type SuccessResponse = {
+   success: boolean;
+};
 
 @injectable()
 export class AxiosHttpService<T>
@@ -46,5 +50,15 @@ export class AxiosHttpService<T>
          }
       );
       return result.data;
+   }
+
+   public async removeById(id: string): Promise<boolean> {
+      const removeResult: AxiosResponse<SuccessResponse> =
+         await this.http.delete('/', {
+            params: {
+               id,
+            },
+         });
+      return removeResult.data.success;
    }
 }

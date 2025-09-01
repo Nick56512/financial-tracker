@@ -10,17 +10,17 @@ import { PaymentsModule } from 'domains/payment/payment.module';
 import { ReportsModule } from 'domains/report/report.module';
 
 @Module({
-  imports: [
-    ConfigurationModule,
-    WinstonLoggerModule,
-    DatabaseModule,
-    JwtAuthModule,
-    CategoryModule,
-    UserAccountModule,
-    CacheManagerModule,
-    PaymentsModule,
-    ReportsModule,
-  ],
-  providers: [],
+   imports: [
+      ConfigurationModule,
+      WinstonLoggerModule,
+      DatabaseModule,
+      JwtAuthModule,
+      CategoryModule,
+      UserAccountModule,
+      CacheManagerModule,
+      PaymentsModule,
+      ReportsModule,
+   ],
+   providers: [],
 })
 export class AppModule {}

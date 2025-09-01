@@ -1,3 +1,4 @@
+import { UserSession } from '@domains/infrastructure/session-provider/isession.provider';
 import { Scenes, Context } from 'telegraf';
 import { Update } from 'telegraf/types';
 
@@ -17,7 +18,10 @@ export interface BotSession extends Scenes.WizardSessionData {
 }
 
 export interface BotContext extends Context<Update> {
-   session: Scenes.WizardSession & BotSession;
+   sceneStorage: Scenes.WizardSession & BotSession;
    scene: Scenes.SceneContextScene<BotContext, Scenes.WizardSessionData>;
    wizard: Scenes.WizardContextWizard<BotContext>;
+   userSession: UserSession;
+   chatId: number;
+   messageText: string;
 }

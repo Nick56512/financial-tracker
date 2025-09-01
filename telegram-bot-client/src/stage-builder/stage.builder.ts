@@ -25,7 +25,7 @@ export class BotStageBuilder implements IBuilder<Scenes.Stage<BotContext>> {
       const stage = new Scenes.Stage<BotContext>([
          /*
                 write all controllers actions inside this stage
-            */
+         */
          this.userAccountController.authorization(),
          this.userAccountController.logOut(),
 
@@ -33,6 +33,7 @@ export class BotStageBuilder implements IBuilder<Scenes.Stage<BotContext>> {
          this.reportsController.createNewReport(),
 
          this.categoryController.createNewCategory(),
+         this.categoryController.removeCategory(),
 
          this.paymentsController.getSummaryByCategories(),
          this.paymentsController.addNewPayment(),

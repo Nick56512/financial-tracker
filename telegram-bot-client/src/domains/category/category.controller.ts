@@ -9,7 +9,7 @@ import {
 } from '@domains/infrastructure/session-provider/isession.provider';
 import { Markup, Scenes } from 'telegraf';
 import { BotContext } from '@bot/telegram.bot.context';
-import { BotKeyboardButtons, BotReplies } from '@bot/telegram.bot.keys';
+import { BotKeyboardButtons, BotReplies, InsideReportMenu } from '@bot/telegram.bot.types';
 
 @injectable()
 export class CategoryController {
@@ -55,29 +55,64 @@ export class CategoryController {
             if (result.id) {
                ctx.reply(
                   BotReplies.successAddedCategory,
-                  Markup.keyboard([
-                     BotKeyboardButtons.addCategory,
-                     BotKeyboardButtons.watchReports,
-                     BotKeyboardButtons.summaryByCategories,
-                  ])
-                     .resize()
-                     .oneTime()
+                  InsideReportMenu
                );
             } else {
                ctx.reply(
                   BotReplies.unsuccessAddedCategory,
-                  Markup.keyboard([
-                     BotKeyboardButtons.addCategory,
-                     BotKeyboardButtons.watchReports,
-                     BotKeyboardButtons.summaryByCategories,
-                  ])
-                     .resize()
-                     .oneTime()
+                  InsideReportMenu
                );
             }
             return ctx.scene.leave();
          }
       );
+      return scene;
+   }
+
+   public removeCategory(): Scenes.BaseScene<BotContext> {
+      const scene = new Scenes.BaseScene<BotContext>(
+         BotKeyboardButtons.removeCategory
+      );
+      scene.enter(async (ctx) => {
+         if (!ctx.chat?.id || !ctx.text) {
+            return;
+         }
+         const session = await this.sessionProvider.getByChatId(ctx.chat.id);
+         if (!session) {
+            ctx.reply(BotReplies.notHaveActiveSession);
+            return ctx.scene.leave();
+         }
+         if (!session.currentReportId) {
+            ctx.reply(
+               BotReplies.notHaveSelectedReport,
+               Markup.keyboard([BotKeyboardButtons.watchReports])
+            );
+            return ctx.scene.leave();
+         }
+         this.categoryService.setAuthenticationToken(session.access_token);
+         ctx.reply(BotReplies.chooseCategory);
+      });
+      scene.action(/([0-9a-f\-]{36})/, async (ctx) => {
+         const id = ctx.match[1];
+
+         if (!ctx.chat?.id) {
+            return ctx.scene.leave();
+         }
+         const session = await this.sessionProvider.getByChatId(ctx.chat.id);
+         if (!session) {
+            ctx.reply(BotReplies.notHaveActiveSession);
+            return ctx.scene.leave();
+         }
+
+         const result = await this.categoryService.removeById(id);
+         if (result) {
+            ctx.editMessageText(BotReplies.successRemovedCategory);
+            return;
+         } else {
+            ctx.editMessageText(BotReplies.unsuccessRemovedCategory);
+         }
+         return ctx.scene.leave();
+      });
       return scene;
    }
 }

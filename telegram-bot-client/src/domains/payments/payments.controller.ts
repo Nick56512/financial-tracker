@@ -13,7 +13,7 @@ import {
    addPaymentScene,
    BotKeyboardButtons,
    BotReplies,
-} from '@bot/telegram.bot.keys';
+} from '@bot/telegram.bot.types';
 import { IGetSummaryByCategories } from './payments.service';
 import { Category } from '@domains/category/category.model';
 import { IFilterHttpService } from '@domains/infrastructure/ifilter.service';
@@ -148,6 +148,7 @@ export class PaymentsController {
                categoryId,
                reportId: selectedReport,
             });
+            await ctx.editMessageText(BotReplies.successAddedPayment);
             return ctx.scene.leave();
          });
       });

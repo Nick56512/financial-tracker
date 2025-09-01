@@ -5,26 +5,26 @@ import { redisStore } from 'cache-manager-redis-store';
 import { ConfigurationParameters } from 'core/@types/enum.keys';
 
 @Module({
-  imports: [
-    CacheModule.registerAsync({
-      isGlobal: true,
-      useFactory: async (configService: ConfigService) => {
-        const redis = await redisStore({
-          socket: {
-            host: configService.getOrThrow<string>(
-              ConfigurationParameters.REDIS_HOST,
-            ),
-            port: configService.getOrThrow<number>(
-              ConfigurationParameters.REDIS_PORT,
-            ),
-          },
-        });
-        return {
-          store: () => redis,
-        };
-      },
-      inject: [ConfigService],
-    }),
-  ],
+   imports: [
+      CacheModule.registerAsync({
+         isGlobal: true,
+         useFactory: async (configService: ConfigService) => {
+            const redis = await redisStore({
+               socket: {
+                  host: configService.getOrThrow<string>(
+                     ConfigurationParameters.REDIS_HOST,
+                  ),
+                  port: configService.getOrThrow<number>(
+                     ConfigurationParameters.REDIS_PORT,
+                  ),
+               },
+            });
+            return {
+               store: () => redis,
+            };
+         },
+         inject: [ConfigService],
+      }),
+   ],
 })
 export class CacheManagerModule {}
