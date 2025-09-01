@@ -1,6 +1,5 @@
-import { Container } from "inversify";
+import { Container } from 'inversify';
 
 declare global {
-    var iocContainer: Container | undefined
+   var iocContainer: Container | undefined;
 }
-

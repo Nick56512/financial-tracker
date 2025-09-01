@@ -1,15 +1,15 @@
-import { StorageLabels } from "core/storage-manager/storage.keys"
-import { injectable } from "inversify"
+import { StorageLabels } from 'core/storage-manager/storage.keys';
+import { injectable } from 'inversify';
 
 export interface IKeyBuilder {
-    build(chatId: number): string
+   build(chatId: number): string;
 }
 
 @injectable()
 export class SessionKeyBuilder implements IKeyBuilder {
-    constructor() {}
+   constructor() {}
 
-    build(chatId: number): string {
-        return `${StorageLabels.chatIdLabel}${chatId}`
-    }
+   build(chatId: number): string {
+      return `${StorageLabels.chatIdLabel}${chatId}`;
+   }
 }

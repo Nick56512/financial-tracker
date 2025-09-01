@@ -1,3 +1,3 @@
 export interface IAuthorizationProvider {
-    getAuthorizationHeader(token: string): string
+   getAuthorizationHeader(token: string): string;
 }

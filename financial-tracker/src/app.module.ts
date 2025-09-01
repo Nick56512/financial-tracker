@@ -19,8 +19,8 @@ import { ReportsModule } from 'domains/report/report.module';
     UserAccountModule,
     CacheManagerModule,
     PaymentsModule,
-    ReportsModule
+    ReportsModule,
   ],
-  providers: []
+  providers: [],
 })
 export class AppModule {}

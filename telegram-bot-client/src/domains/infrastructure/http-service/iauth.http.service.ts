@@ -1,3 +1,3 @@
 export interface IAuthHttpService {
-    setAuthenticationToken(token: string): void
+   setAuthenticationToken(token: string): void;
 }

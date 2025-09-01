@@ -1,10 +1,9 @@
-import { IAuthorizationProvider } from "./iauth.provider";
+import { IAuthorizationProvider } from './iauth.provider';
 
 export class JwtAuthorizationProvider implements IAuthorizationProvider {
+   constructor() {}
 
-    constructor() {}
-
-    public getAuthorizationHeader(token: string): string {
-       return `Bearer ${token}`
-    }
+   public getAuthorizationHeader(token: string): string {
+      return `Bearer ${token}`;
+   }
 }
