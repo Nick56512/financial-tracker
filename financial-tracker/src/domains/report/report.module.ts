@@ -21,8 +21,6 @@ import { ReportService } from './report.service';
                ReportDto,
             );
             return new ReportService(
-               paymentsRepository,
-               categoryRepository,
                reportsRepository,
                mapper,
             );

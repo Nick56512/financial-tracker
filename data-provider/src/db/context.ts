@@ -11,7 +11,7 @@ export class DbContext {
             username: this.connectOptions.username,
             password: this.connectOptions.password,
             database: this.connectOptions.database,
-            synchronize: this.connectOptions.synchronize,
+            synchronize: this.connectOptions.synchronize,           //!!!!!! 
             logging: this.connectOptions.logging,
             entities: this.connectOptions.entities
         })

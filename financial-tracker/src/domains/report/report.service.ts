@@ -11,9 +11,7 @@ export class ReportService
    extends AbstractService<Report, ReportDto>
    implements IReportsService
 {
-   constructor(
-      protected readonly paymentsRepository: IModelRepository<Payments>,
-      protected readonly categoryRepository: IModelRepository<Category>,
+   constructor(     
       protected readonly reportsRepository: IModelRepository<Report>,
       protected readonly mapper: IMapper<Report, ReportDto>,
    ) {
@@ -26,20 +24,5 @@ export class ReportService
          userId,
       );
       return userReports.map((x) => this.mapper.mapToDto(x));
-   }
-   override async removeById(entityId: string): Promise<boolean> {
-      const report = await this.reportsRepository.findById(entityId);
-      if (!report) {
-         return false;
-      }
-      const categories = await report.categories;
-      const payments = await report.payments;
-      for (const payment of payments) {
-         await this.paymentsRepository.removeById(payment.id);
-      }
-      for (const category of categories) {
-         await this.paymentsRepository.removeById(category.id);
-      }
-      return await this.reportsRepository.removeById(entityId);
    }
 }

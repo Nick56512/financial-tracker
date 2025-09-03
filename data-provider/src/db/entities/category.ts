@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { PrimaryKeyEntity } from "./primary.key.entity";
 import { Payments } from "./payments";
 import { Report } from "./report";
@@ -16,13 +16,21 @@ export class Category extends PrimaryKeyEntity {
     @Column({ type: 'integer', nullable: true })
     allocatedBudget: number
 
-    @ManyToOne(() => Report, (report) => report.categories)
-    @JoinColumn({ name: 'reportId' })
-    report: Report
-
-    @Column({ type: 'uuid' })
+    @Column({ name: 'reportId',  type: 'uuid' })
     reportId: string
 
-    @OneToMany(() => Payments, (payment) => payment.category, { lazy: true })
+    @DeleteDateColumn()
+    deletedAt?: Date
+
+
+
+    @ManyToOne(() => Report, (report) => report.categories, {
+        onDelete: 'CASCADE'
+    })
+    @JoinColumn({ name: 'reportId' })
+    report: Report
+    @OneToMany(() => Payments, (payment) => payment.category, { lazy: true,
+        cascade: ['soft-remove', 'remove']
+    })
     payments: Promise<Payments[]>
 }

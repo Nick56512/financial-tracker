@@ -18,6 +18,14 @@ export class EntityRepository<Entity extends PrimaryKeyEntity> implements IModel
         await this.repository.remove(entity)
         return true
     }
+    async softRemoveById(entityId: string): Promise<boolean> {
+        const entity = await this.findById(entityId)
+        if(!entity) {
+            return false
+        }
+        await this.repository.softRemove(entity)
+        return true
+    }
     findById(entityId: string): Promise<Entity> {
         return this.repository.findOne({
             where: {

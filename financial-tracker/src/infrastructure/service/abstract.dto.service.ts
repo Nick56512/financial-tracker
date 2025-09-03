@@ -14,7 +14,7 @@ export class AbstractService<Entity extends PrimaryKeyEntity, Dto>
       return createdEnity.id;
    }
    removeById(entityId: string): Promise<boolean> {
-      return this.modelRepository.removeById(entityId);
+      return this.modelRepository.softRemoveById(entityId);
    }
    async findById(entityId: string): Promise<Dto | null> {
       const entity = await this.modelRepository.findById(entityId);
